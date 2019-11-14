@@ -2,6 +2,7 @@
  * @license
  * Copyright Akveo. All Rights Reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
+ * Url: 'http://app.ipsfa.gob.ve:8081/ipsfa/api/web/',
  */
 // The file contents for the current environment will overwrite these during build.
 // The build system defaults to the dev environment which uses `environment.ts`, but if you do
@@ -10,4 +11,5 @@
 
 export const environment = {
   production: false,
+  Url: 'https://app.ipsfa.gob.ve:2608/ipsfa/api/web/',
 };

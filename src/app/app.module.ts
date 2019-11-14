@@ -11,16 +11,21 @@ import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ConstanciaService } from './servicios/util/constancia.service';
+import { NgxPrintModule } from 'ngx-print';
+import { AuthGuardGuard } from './servicios/security/auth-guard.guard';
+
 import {
   NbChatModule,
   NbDatepickerModule,
   NbDialogModule,
   NbMenuModule,
   NbSidebarModule,
+  NbAlertModule,
+  NbCheckboxModule,
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
-
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -28,20 +33,23 @@ import {
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-
+    NgxPrintModule,
     ThemeModule.forRoot(),
-
+    NbAlertModule,
+    NbCheckboxModule,
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbDatepickerModule.forRoot(),
     NbDialogModule.forRoot(),
     NbWindowModule.forRoot(),
     NbToastrModule.forRoot(),
+    //NbToastrModule.forRoot(config),
     NbChatModule.forRoot({
       messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
     }),
     CoreModule.forRoot(),
   ],
+  providers: [ConstanciaService, AuthGuardGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {

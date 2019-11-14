@@ -5,4 +5,5 @@
  */
 export const environment = {
   production: true,
+  Url: 'https://app.ipsfa.gob.ve:2608/ipsfa/api/web/',
 };

@@ -77,3 +77,40 @@
     }
   }
 }
+
+
+
+@page {
+    margin: 1.5cm;
+    margin-bottom: 0.8cm;
+    margin-top: 0.8cm;
+    size: letter;
+}
+section {
+    page-break-before: always;
+}
+body {
+    margin: 0px;
+    font-family: Calibri;
+    
+}
+.baner {
+    text-align: center;
+    line-height: 20px; 
+    font-size: 14px; 
+}
+p {
+    text-align: justify;
+    line-height: 20px; 
+    font-size: 13.5px;
+}
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -5em;
+}
+.footer, .push {
+    height: 5em;
+    font-size: 12px;
+}

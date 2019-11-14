@@ -1,0 +1,54 @@
+@charset "utf-8";
+@page {
+    margin: 1.5cm;
+    margin-bottom: 0.8cm;
+    margin-top: 0.8cm;
+    size: letter;
+}
+section {
+    page-break-before: always;
+}
+body {
+    margin: 0px;
+    font-family: Calibri;
+    
+}
+.baner {
+    text-align: center;
+    line-height: 22px; 
+    font-size: 15px; 
+}
+p {
+    text-align: justify;
+    line-height: 22px; 
+    font-size: 14px;
+}
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -5em;
+}
+.footer, .push {
+    height: 5em;
+    font-size: 12px;
+}
+
+.tablaneto {
+    border-collapse: collapse;
+} 
+.tablaneto tr{
+    border: 1px solid #CCCCCC;
+} 
+.tablaneto td {
+    border: 1px solid #CCCCCC;
+} 
+.tablaneto th {
+    border: 1px solid #CCCCCC;
+} 
+@media print {
+    div {
+        background-position: 180px;
+        background: url('../images/fondo.png') no-repeat center;
+    }
+}

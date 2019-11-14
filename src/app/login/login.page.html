@@ -1,0 +1,83 @@
+<nb-layout center>
+
+    
+    <nb-layout-column center>
+            <img src="../../assets/images/ipsfa.jpg" style="width: 150px; border-radius:100px;display: block;
+            margin-left: auto;
+            margin-right: auto;">
+            <h1 id="title" class="title" style="text-align: center">Iniciar sesión</h1>
+            <p class="sub-title" style="text-align: center">Hola! Bienvenidos a Ipsfa en línea.</p>
+   
+
+        <div class="row">
+                <div class="col-lg-9">
+
+                        
+                        <form (ngSubmit)="login('top-right', 'danger')" #form="ngForm" aria-labelledby="title">
+                                <div class="form-control-group">
+                                
+                                  <label class="label" for="input-email">Cédula de identidad:</label>
+                                  <input nbInput
+                                         fullWidth
+                                         name="usuario"
+                                         id="input-email"
+                                         placeholder="Cédula de identidad"
+                                         fieldSize="large"
+                                         [(ngModel)]="usuario" 
+                                         value="{{usuario}}"
+                                         autofocus>
+                                </div>
+                                <div class="form-control-group">
+                                  <span class="label-with-link">
+                                    <label class="label" for="input-password">Clave:</label>
+                                    <a class="forgot-password caption-2" routerLink="../request-password"> Recuperar clave?</a>
+                                  </span>
+                                  <input nbInput
+                                         fullWidth
+                                         name="clave"
+                                         type="password"
+                                         id="input-password"
+                                         placeholder="Clave"
+                                         fieldSize="large"
+                                         [(ngModel)]="clave" 
+                                         value="{{clave}}">
+                                </div>
+                              
+                                
+                                <br><br>
+                                <div class="row">
+                                  <div class="col-lg-4"></div>
+                                    <div class="col-lg-4"><button nbButton
+                                        fullWidth
+                                        status="info"
+                                        size="medium"
+                                        [disabled]="submitted || !form.valid"
+                                        [class.btn-pulse]="submitted"
+                                        [nbSpinner]="loading" nbSpinnerStatus="info" 
+                                        nbSpinnerSize="medium" nbSpinnerMessage="">
+                                  Iniciar
+                                </button></div>
+                                    <div class="col-lg-4">
+                                        <button nbButton
+                                            fullWidth
+                                            status=""
+                                            size="medium"
+                                            routerLink="../registrarse">
+                                            registrarse
+                                        </button>
+                                    </div>
+                                   
+                                </div>
+                                
+                                
+                              </form>
+                </div>
+        </div>
+
+
+    </nb-layout-column>
+    
+
+
+</nb-layout>
+

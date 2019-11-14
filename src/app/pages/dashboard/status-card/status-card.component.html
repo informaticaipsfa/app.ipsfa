@@ -1,0 +1,1275 @@
+<div class="row">
+    
+    <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6" id="divautorizacion">
+        <nb-card>
+            <div class="icon-container">
+                <div class="icon status-primary">
+                    <nb-icon icon="file-outline" style="font-size: 3rem;"></nb-icon>
+                </div>
+            </div>
+            <div class="details">
+                <div class="title h6">Autorización Medicamentos</div>
+                <div class="status paragraph-2">
+                        <button nbButton status="info" (click)="GenerarAutorizacion()" size="tiny"
+                        [nbSpinner]="loadingaut" nbSpinnerStatus="info" 
+                        nbSpinnerSize="tiny" nbSpinnerMessage=""
+                        [style.visibility]="!isHmed? 'hidden': 'visible'"
+                        >Generar</button>
+                        <button printSectionId="print-medicamentos" 
+                        ngxPrint nbButton status="success" 
+                        styleSheetFile="https://app.ipsfa.gob.ve/assets/skins/print.css" 
+                        [style.visibility]="isHmed? 'hidden': 'visible'" size="tiny">Imprimir</button>
+                </div>
+            </div>
+        </nb-card>
+    </div>
+            
+    <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6" id="divruta"  [style.display]="isafi? 'initial': 'none'">
+        <nb-card >
+            <div class="icon-container">
+                <div class="icon status-danger">
+                        <nb-icon icon="attach-outline" style="font-size: 3rem;"></nb-icon>
+                </div>
+            </div>
+            <div class="details">
+                <div class="title h6">Hoja de Ruta</div>
+                <div class="status paragraph-2">
+                        <button nbButton status="info" (click)="GenerarHojaRuta()" size="tiny"
+                        [nbSpinner]="loadingru" nbSpinnerStatus="info" 
+                        nbSpinnerSize="tiny" nbSpinnerMessage=""
+                        [style.visibility]="!isHru? 'hidden': 'visible'"
+                        >Generar</button>
+                        <button printSectionId="print-ruta" 
+                        ngxPrint nbButton status="success" 
+                        styleSheetFile="https://app.ipsfa.gob.ve/assets/skins/print.css" 
+                        [style.visibility]="isHru? 'hidden': 'visible'" size="tiny">Imprimir</button>    
+                </div>
+            </div>
+        </nb-card>
+    </div>
+        
+    <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6" id="divsolvencia" [style.display]="isafi? 'initial': 'none'">
+        <nb-card >
+            <div class="icon-container">
+                <div class="icon status-success">
+                        <nb-icon icon="attach-2-outline" style="font-size: 3rem;"></nb-icon>
+                </div>
+            </div>
+            <div class="details">
+                <div class="title h6">Hoja de Solvencia</div>
+                <div class="status paragraph-2">
+                        <button nbButton status="info" (click)="GenerarSolvencia()" size="tiny"
+                        [nbSpinner]="loadingsol" nbSpinnerStatus="info" 
+                        nbSpinnerSize="tiny" nbSpinnerMessage=""
+                        [style.visibility]="!isHsol? 'hidden': 'visible'"
+                        >Generar</button>
+                        <button printSectionId="print-solvencia" ngxPrint nbButton status="success" 
+                        styleSheetFile="https://app.ipsfa.gob.ve/assets/skins/print.css"
+                        [style.visibility]="isHsol? 'hidden': 'visible'" size="tiny">Imprimir</button>    
+                </div>
+            </div>
+        </nb-card>
+    </div>
+
+    <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6" id="divafiliacion" [style.display]="isafipen? 'initial': 'none'">
+        <nb-card >
+            <div class="icon-container">
+                <div class="icon status-success">
+                    <nb-icon icon="file-text-outline" style="font-size: 3rem;"></nb-icon>
+                </div>
+            </div>
+            <div class="details">
+                <div class="title h6">Constancia de Afiliación</div>
+                <div class="status paragraph-2">
+                        <button nbButton status="info" (click)="GenerarConstanciaAfiliacion()" size="tiny"
+                        [nbSpinner]="loadingc" nbSpinnerStatus="info" 
+                        nbSpinnerSize="tiny" nbSpinnerMessage=""
+                        [style.visibility]="!isHc? 'hidden': 'visible'">Generar</button>
+                        <button printTitle="Constancia"  
+                        printSectionId="print-afiliacion" 
+                        ngxPrint nbButton status="success"
+                        styleSheetFile="https://app.ipsfa.gob.ve/assets/skins/print.css" 
+                        [style.visibility]="isHc? 'hidden': 'visible'" size="tiny">Imprimir</button>
+                </div>
+            </div>
+        </nb-card>
+    </div>
+       
+    <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6" id="divpension" [style.display]="ispen? 'initial': 'none'">
+        <nb-card>
+            <div class="icon-container">
+                <div class="icon status-warning">
+                    <nb-icon icon="file-outline" style="font-size: 3rem;"></nb-icon>
+                </div>
+            </div>
+            <div class="details">
+                <div class="title h6">Constancia Pensión</div>
+                <div class="status paragraph-2">
+                        <button nbButton status="info" (click)="GenerarConstanciaPension('top-right', 'success')" size="tiny"
+                        [nbSpinner]="loadingpen" nbSpinnerStatus="info" 
+                        nbSpinnerSize="tiny" nbSpinnerMessage=""
+                        [style.visibility]="!isHpen? 'hidden': 'visible'">Generar</button>
+                        <button printSectionId="print-pension" ngxPrint nbButton status="success" 
+                        styleSheetFile="https://app.ipsfa.gob.ve/assets/skins/print.css" 
+                        [style.visibility]="isHpens? 'hidden': 'visible'" size="tiny">Imprimir</button>
+                        <button printSectionId="print-pension-sob" 
+                        ngxPrint nbButton status="success" 
+                        styleSheetFile="https://app.ipsfa.gob.ve/assets/skins/print.css" 
+                        [style.visibility]="isHpensob? 'hidden': 'visible'" size="tiny">Imprimir</button>
+
+                </div>
+            </div>
+        </nb-card>
+    </div>
+    
+    <!-- <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6">
+            <nb-card (click)="obtenerFideicomiso()">
+                <div class="icon-container">
+                    <div class="icon status-info">
+                        <nb-icon icon="layers-outline" style="font-size: 3rem;"></nb-icon>                            
+                    </div>
+                </div>
+                <div class="details">
+                    <div class="title h6">Constancia de Fideicomiso</div>
+                    <div class="status paragraph-2">
+                        <button nbButton status="info" (click)="GenerarConstancia()" size="tiny"
+                        [nbSpinner]="loading" nbSpinnerStatus="info" 
+                        nbSpinnerSize="small" nbSpinnerMessage=""
+                        [style.visibility]="!isHfide? 'hidden': 'visible'">Generar</button>
+                        <button printSectionId="print-section" ngxPrint nbButton status="success" 
+                        [style.visibility]="isHfide? 'hidden': 'visible'" size="small">Imprimir</button>
+         
+    
+                    </div>
+                </div>
+            </nb-card>
+        </div> -->
+
+    <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6" id="divnetos" [style.display]="ispen? 'initial': 'none'">
+        <nb-card >
+            <div class="icon-container">
+                <div class="icon status-primary">
+                        <nb-icon icon="pantone-outline" style="font-size: 3rem;"></nb-icon>
+                </div>
+            </div>
+            <div class="details">
+                <div class="title h6">Constancia Netos</div>
+                <div class="status paragraph-2">
+                        <button nbButton status="warning" (click)="GenerarNetos(dialog)" 
+                        size="tiny"
+                        [nbSpinner]="loadingnet" 
+                        nbSpinnerStatus="warning" 
+                        nbSpinnerSize="tiny" 
+                        nbSpinnerMessage="">Consultar </button>  
+                </div>
+            </div>
+        </nb-card>
+    </div>
+    
+</div>
+
+<!-- 
+    *****************************************************
+        MODAL LOADING 
+    
+        Los style display se encuentra en none para 
+    evitar que los usuario observen la carga
+    *****************************************************
+-->
+
+<ng-template #dialog let-data let-ref="dialogRef">
+    <nb-card>
+        <nb-card-header>Mensaje Ipsfa en linea</nb-card-header>
+        <nb-card-body>
+            <div class="form-control-group">                            
+                <label class="label" for="input-listado">Listado:</label>
+                <select [(ngModel)]="netos" 
+                    name="netos" 
+                    class="custom-select" 
+                    placeholder="Seleccione un mes para el reporte"
+                    (click)="generarReporte($event,'top-right', 'success')"> 
+                    
+                    <option *ngFor='let lista of lstNetos; let i = index'  [value]="i">
+                        {{ lista.nomina + " - " + lista.mes }}
+                    </option>
+                </select>
+            </div>
+        </nb-card-body>
+        <nb-card-footer>
+            <!-- <button nbButton (click)="generarReporte()" status-success
+            [nbSpinner]="loadingrepor" nbSpinnerStatus="warning" 
+            nbSpinnerSize="tiny" nbSpinnerMessage=""
+            [style.visibility]="!isHRerpote? 'hidden': 'visible'">Generar</button> -->
+            <button printSectionId="print-netos" 
+            ngxPrint 
+            nbButton status="success" 
+            [style.visibility]="isHRerpote? 'hidden': 'visible'"
+            styleSheetFile="https://app.ipsfa.gob.ve/assets/skins/print.css">Imprimir</button>
+
+            <button printSectionId="print-netos-sob" 
+            ngxPrint 
+            nbButton status="success" 
+            [style.visibility]="isHRerpoteSob? 'hidden': 'visible'"
+            styleSheetFile="https://app.ipsfa.gob.ve/assets/skins/print.css">Imprimir</button> 
+            
+        </nb-card-footer>
+    </nb-card>
+</ng-template>
+
+
+
+<ng-template #dialogfam let-data let-ref="dialogfamRef">
+        <nb-card>
+            <nb-card-header>Mensaje Ipsfa en linea</nb-card-header>
+            <nb-card-body>
+                <div class="form-control-group">                            
+                    <label class="label" for="input-listado">Listado:</label>
+                    <select [(ngModel)]="netosfam" 
+                        name="netosfam" 
+                        class="custom-select" 
+                        placeholder="Seleccione un mes para el reporte"
+                        (click)="generarReporteFam($event)"> 
+                        
+                        <option *ngFor='let lista of lstNetosFamiliar; let i = index'  [value]="i">
+                            {{ lista.nomina + " - " + lista.mes }}
+                        </option>
+                    </select>
+                </div>
+            </nb-card-body>
+            <nb-card-footer>
+                <!-- <button nbButton (click)="generarReporte()" status-success
+                [nbSpinner]="loadingrepor" nbSpinnerStatus="warning" 
+                nbSpinnerSize="tiny" nbSpinnerMessage=""
+                [style.visibility]="!isHRerpote? 'hidden': 'visible'">Generar</button> -->
+                <button printSectionId="print-netos" 
+                ngxPrint 
+                nbButton status="success" 
+                [style.visibility]="isHRerpote? 'hidden': 'visible'"
+                styleSheetFile="https://app.ipsfa.gob.ve/assets/skins/print.css">Imprimir</button>  
+                
+            </nb-card-footer>
+        </nb-card>
+</ng-template>
+    
+<!-- 
+    *****************************************************
+    CUERPOS DE DOCUMENTOS (PLANTILLAS) 
+    
+        Los style display se encuentra en none para 
+    evitar que los usuario observen la carga
+    *****************************************************
+-->
+
+<div class='row'>
+    
+    <!-- Constancia de afiliacion. -->   
+    <div class="col-xxxl-6">
+        <div id="print-afiliacion" style="display: none">
+            <table border="0">
+        <tr>
+          <td width="15%" valign="top">
+            <img  style="width:140px;height:130px; margin-left: 0px; margin-top: -10px" 
+            class="" 
+            src="https://app.ipsfa.gob.ve/assets/images/logo_ipsfa.png" id="_imgescudo"/><BR>     
+      
+          </td>
+          <td width="80%" class="membrete">
+                <p align="center" class="baner">
+                      REPÚBLICA BOLIVARIANA DE VENEZUELA <BR>
+                      MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<BR>
+                      VICEMINISTERIO DE SERVICIOS PARA LA DEFENSA<BR>
+                      DIRECCIÓN GENERAL DE EMPRESAS Y SERVICIOS<BR>
+                      INSTITUTO DE PREVISIÓN SOCIAL DE LA FUERZA ARMADA NACIONAL BOLIVARIANA<BR>
+                      RIF: G20003692-3<BR>
+                      </p></td>
+          <td width="5%"  valign="top">
+              <!-- <img style="width: 90px;height: 90px; margin-left: 0px"  
+              src='https://app.ipsfa.gob.ve/assets/images/ndisponible.jpg'  id="_fotoConstancia"/>
+      
+                <img width="45%" alt="Grado del Milita" id="_Constgrado" /><br> -->
+                <!-- <label id="lblGradoFoto"></label> -->
+            </td>
+        </tr>
+      </table>
+      <h3 style="text-align: center">CONSTANCIA DE AFILIACIÓN</h3>
+    <p>
+      Quien suscribe <b><label id="lblgradoPI"> </label></b> Presidente de la Junta Administradora del 
+      Instituto de Previsión Social de las Fuerzas Armadas, hace constar por medio de la 
+      presente que el (la) <b>CIUDADANO (A) </b> <b><label id="lblgradoMil"></label>. <label id="lblnombreMil"></label></b>, 
+      Titular de la Cédula de Identidad Número V.- <b><label id="lblcedulaMil"></label></b>, se encuentra Afiliado(a) a este Instituto.
+    <br>  </p>
+   
+   <table cellspacing="0" width="100%"  id="tblDatosMil" border="1" style="border: 1px solid #CCC; line-height: 14px; 
+    font-size: 12px; ">
+    
+            <tr >
+                  <td colspan="4" bgcolor="#CCC"><b>DATOS PERSONALES</b></td>
+            </tr>
+            <tr >
+                  <td width="20%" class="titulo" ><b>Estado Civil:</b></td>
+                  <td width="18%"><label id="lbledoCivilM"> </label> </td>
+                  <td width="25%" class="titulo"><b>Fecha de Nacimiento:</b></td>
+                  <td width="37%"><label id="lblfchNacMil"></label></td>
+            </tr>
+            <tr >
+                  <td width="20%" class="titulo"><b>
+                      <!-- Dirección: -->
+                    </b></td>
+                  <td width="80%" colspan="3"><label id="lbldireccionMil"> </label> </td>
+            </tr>
+
+    </table>
+    
+    <table cellspacing="0" width="100%" border="1" style="border: 1px solid #CCC; line-height: 14px; 
+    font-size: 12px;">
+            <tr >
+                  <td colspan="4" bgcolor="#CCC"><b>DATOS MILITARES</b></td>
+            </tr>
+            <tr >
+                  <td width="20%" class="titulo"><b>Ingreso a la FANB:</b></td>
+                  <td width="18%"><label id="lblfchIngresoFANB"> </label> </td>
+                  <td width="25%" class="titulo"><b>Componente:</b></td>
+                  <td width="37%"><label id="lblcomponente"></label></td>
+            </tr>
+            <tr >
+                <td width="20%" class="titulo"><b>Situación:</b></td>
+                <td width="18%"><label id="lblsituacionMil"> </label> </td>
+                <td width="25%" class="titulo"><b>Clasificación / Categoria:</b></td>
+                <td width="37%"><label id="lblclascat"></label></td>
+          </tr>
+          <tr >
+                <td width="20%" class="titulo"><b>Fecha &Uacute;ltimo Ascenso:</b></td>
+                <td width="18%"><label id="lblfchUltAscenso"></label></td>
+                <td width="25%" class="titulo"><b>Años de Servicio:</b></td>
+                <td width="37%"><label id="lblaServicio"></label></td>
+          </tr>
+
+      </table>
+
+      <table  cellspacing="0" width="100%" border="1" style="border: 1px solid #CCC; line-height: 14px;font-size: 12px;">
+      <tr >
+          <td colspan="4" bgcolor="#CCC"><b>FAMILIARES AFILIADOS</b></td>
+      </tr>
+      <tr><td height="150px" valign="top">
+        <div id="_tblConstFamiliares">
+        <!-- Ahora se crean desde consultar.afiliado.js ( Function :-> FamiliaresHTML() ) -->
+        </div>
+      </td></tr>
+      </table>    
+    
+    Constancia que se expide a petición de la parte interesada a los días <label id="lblfchActual"> </label>.<br>
+    <table border="0">
+        <tr>
+            <td width="15%" valign="top">
+                <img src='https://app.ipsfa.gob.ve/assets/images/selloafiliacion.png' 
+                valing="left" width="290px" style="margin-left: -50px;margin-right: -40px">
+            </td>
+            <td width="70%" valign="top">
+                <h4 style="text-align: center">
+                    <img style="width: 250px;height: 120px;" 
+                        src="https://app.ipsfa.gob.ve/assets/images/firma_digital.png" id="lblimgFirmaPIT"/><br>
+                    <!-- <label id="lblnombrePI"> </label><br>
+                    <label id="lblgradoPIF"> </label><br>-->
+                    PRESIDENTE DE LA JUNTA ADMINISTRADORA I.P.S.F.A.
+                </h4>               
+            </td>
+            <td width="15%" valign="top"></td>
+            </tr>
+            <tr>
+                <td colspan="3"><br>
+                    <p style="text-align: center"><i>
+                        CHAVEZ VIVE LA PATRÍA SIGUE<br>
+                        INDEPENDENCIA Y PATRIA SOCIALISTA...VIVIREMOS Y VENCEREMOS<br>
+                        “LEALES SIEMPRE, TRAIDORES NUNCA”<br></i>    
+                    </p>
+                </td>
+            </tr>
+    </table>
+    
+        <br>
+        <br>
+  <div class="footer">
+    <!-- Para validar este documento Ingresar al Portal http://www.ipsfa.gob.ve opción "Verificación de Documentos". <br> -->
+    Direccón: Avenida Los Próceres Edif. Sede del IPSFA. Gerencia de Afiliación Planta Baja. Santa Mónica, 
+    municipio Libertador. Caracas, Distrito Capital. Teléfonos: (0212) - 609-23-10 / 609-23-11 /609-23-12 
+
+  </div>
+
+        </div>
+    </div>
+    
+    <!-- Hoja de ruta. -->
+    <div class="col-xxxl-6">
+        <div id="print-ruta" style="display: none">
+        <section class="content">
+            <div class="wrapper">
+                <table border="0">
+                        <tr>
+                            <td width="15%" valign="top">
+                            <img  style="width:150px;height:140px; margin-left: 0px; margin-top: -10px" 
+                            class="" 
+                            src="https://app.ipsfa.gob.ve/assets/images/logo_ipsfa.png" id="_imgescudo"/><BR>     
+                        
+                            </td>
+                            <td width="80%" class="membrete">
+                                <p align="center" class="baner">
+                                        REPÚBLICA BOLIVARIANA DE VENEZUELA <BR>
+                                        MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<BR>
+                                        VICEMINISTERIO DE SERVICIOS PARA LA DEFENSA<BR>
+                                        DIRECCIÓN GENERAL DE EMPRESAS Y SERVICIOS<BR>
+                                        INSTITUTO DE PREVISIÓN SOCIAL DE LA FUERZA ARMADA NACIONAL BOLIVARIANA<BR>
+                                        RIF: G20003692-3
+                                        </p></td>
+                            <td width="5%"  valign="top"></td>
+                        </tr>
+                      </table>
+                      
+                      <h4>HOJA DE SOLVENCIA<BR>TRAMITE DE PASE A RETIRO<BR>AVALADAS POR EL IPSFA</h4>
+                      
+                      
+                        <b>DATOS DEL AFILIADO</b>
+                        <table border="1" cellspacing="1" width="100%">
+                          <tr>
+                            <td>GRADO / GERARQUIA<br>
+                              <b id="hrgrado">&nbsp;</b>
+                            </td>
+                            <td>APELLIDOS Y NOMBRE<br>
+                              <b id="hrnombre">&nbsp;</b></td>
+                            <td>CEDULA DE IDENTIDAD<br>
+                              <b id="hrcedula">&nbsp;</b></td>
+                            
+                          </tr>
+                          <tr>
+                            <td>COMPONENTE<br>
+                              <b id="hrcomponente">&nbsp;</b></td>
+                            <td>TELEFONO<br>
+                              <b id="hrtelefono">&nbsp;</b></td>
+                            <td>FIRMA DEL AFILIADO<br>
+                              <b id="hrfirma">&nbsp;</b></td>            
+                          </tr>
+                        </table><br>
+                          <b>GERENCIA DE AFILIACIÓN (APLICA A TODO EL PERSONAL MILITAR)</b>
+                          <table border="1" cellspacing="1" width="100%">
+                              <tr>
+                                  <td>TIEMPO DE SERVICIO</td>
+                                  <td colspan="3" align="center"><b id="hrtiempoServicio"></b><br>
+                                 
+                              </tr>
+                              <tr>
+                                  <td colspan="4">VERIFICACIÓN EN EL SISTEMA:<br>
+                                      <input type="checkbox" name="" value="1">SI
+                                      <input type="checkbox" name="" value="2">NO
+                                  </td> 
+                              </tr> 
+                              <tr> 
+                                  <td>APELLIDOS Y NOMBRE DEL JEFE DEL AREA:<br><br>
+                                  <td>FIRMA:<br><br>
+                                  </td>
+                                  <td>SELLO:<br><br>
+                                  </td>
+                                  <td>FECHA:<br><br>
+                                  </td>
+                              </tr>
+                            </table><br>
+                            <b>GERENCIA DE BIENESTAR Y SEGURIDAD SOCIAL (APLICA A TODO EL PERSONAL MILITAR)</b>
+                            <table border="1" cellspacing="1" width="100%">
+                                <tr>
+                                    <td colspan="3">MEDIDAS DE EMBARGO:<br>
+                                        <input type="checkbox" name="" value="1">SI
+                                        <input type="checkbox" name="" value="2">NO
+                                    </td> 
+                                    <td rowspan="2" valign="bottom">MONTOS Bs:</td>
+                                </tr> 
+                                <tr>
+                                    <td colspan="3">DESCRIPCIÓN:</td>
+                                </tr>
+                            <tr>
+                                <td colspan="3">MONTO 5% PENSIONES:</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">MONTO FIDEICOMISOS:</td>
+                                <td></td>
+                             </tr>
+                            <tr>
+                                <td colspan="3"><b>TOTAL:</b></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">OBSERVACIONES:</td> 
+                            </tr> 
+                            <tr> 
+                                <td>APELLIDOS Y NOMBRE DEL JEFE DEL AREA:</td>
+                                <td>FIRMA:<br><br>
+                                </td>
+                                <td>SELLO:<br><br>
+                                </td>
+                                <td>FECHA:<br><br>
+                                </td>
+                            </tr>
+                              </table>
+                              <b>GERENCIA DE VIVIENDA (APLICA A TODO EL PERSONAL MILITAR)</b>
+                    <table border="1" cellspacing="1" width="100%">
+                        <tr>
+                            <td colspan="2">USUARIO DE VIVIENDA
+                                <input type="checkbox" name="" value="1">SI
+                                <input type="checkbox" name="" value="2">NO
+                            </td> 
+                            <td colspan="2">PRESENTO SOLVENCIA
+                              <input type="checkbox" name="" value="1">SI
+                              <input type="checkbox" name="" value="2">NO
+                           </td> 
+                        </tr> 
+                    <tr>
+                        <td colspan="3">CONVENIO DE ENTREGA:</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">OBSERVACIONES:</td>
+                        <td></td>
+                     </tr>
+                     <tr> 
+                        <td>APELLIDOS Y NOMBRE DEL JEFE DEL AREA:<br><br>
+                        <td>FIRMA:<br><br>
+                        </td>
+                        <td>SELLO:<br><br>
+                        </td>
+                        <td>FECHA:<br><br>
+                        </td>
+                    </tr><br>
+                  </table><br>
+                              
+                          
+            </div>
+        </section>
+                  
+                <section class="content">
+                   <div class="wrapper">
+                  <b>GERENCIA DEL SISA (APLICA A TODO EL PERSONAL MILITAR)</b>
+                    <table border="1" cellspacing="1" width="100%">
+                               <tr>
+                                 <td colspan="3">DESCRIPCIÓN:</td> 
+                                 <td >MONTOS Bs:</td>
+                               </tr> 
+                               <tr>
+                                 <td colspan="3">PRESTAMO ESPECIAL:</td>
+                                 <td></td>
+                               </tr>
+                                <tr>
+                                    <td colspan="3">PRESTAMO EFECTIVO:</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">CREDITO COMERCIAL:</td>
+                                    <td></td>
+                                </tr>
+                              <tr>
+                                  <td colspan="3"><b>TOTAL:</b></td>
+                                  <td></td>
+                              </tr>
+                              <tr>
+                                  <td colspan="4">OBSERVACIONES: </td> 
+                              </tr> 
+                              <tr> 
+                                  <td>APELLIDOS Y NOMBRE DEL JEFE DEL AREA:<br><br>
+                                  <td>FIRMA:<br><br>
+                                  </td>
+                                  <td>SELLO:<br><br>
+                                  </td>
+                                  <td>FECHA:<br><br>
+                                  </td>
+                              </tr>
+                  </table><br>
+                    
+                      
+                        <b>GERENCIA DE FINANZAS (NO APLICA AL PERSONAL 
+                        MILITAR CON MAS DE 15 AÑOS DE SERVICIO)</b><br>
+                        <table border="1" cellspacing="1" width="100%">
+                          <tr>
+                              <td colspan="3" align="center">DESCRIPCIÓN, VERIFICACIÓN Y CONFORMACÓN CON EL ESTADO DE <br>CUENTA DE COBRANZA:</td>
+                              <td >MONTOS Bs:</td>
+                          </tr> 
+                          <tr>
+                              <td colspan="3">PRESTAMO PERSONAL:</td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td colspan="3">OTROS CREDITOS:</td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td colspan="3"><br></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                             <td colspan="3"><br></td>
+                             <td></td>
+                          </tr>
+                          <tr>
+                             <td colspan="3"><br></td>
+                             <td></td>
+                         </tr>
+                         <tr>
+                             <td colspan="3"><br></td>
+                             <td></td>
+                         </tr>
+                         <tr>
+                             <td colspan="3"><br></td>
+                             <td></td>
+                         </tr>
+                         <tr>
+                             <td colspan="3"><b>TOTAL:</b></td>
+                             <td></td>
+                        </tr>
+                        <tr>
+                          <td colspan="4">OBSERVACIONES:<br>
+                          </td> 
+                        </tr> 
+                        <tr> 
+                            <td>APELLIDOS Y NOMBRE DEL JEFE DEL AREA:<br><br>
+                            <td>FIRMA:<br><br>
+                            </td>
+                            <td>SELLO:<br><br>
+                            </td>
+                            <td>FECHA:<br><br>
+                            </td>
+                        </tr>
+                       
+                    </table><br>
+                        <b>OPINIÓN DEL PRESIDENTE DEL INSTITUTO DE PREVISIÓN SOCIAL DE LAS <br> 
+                                   FUERZAS ARMADAS NACIONALES </b>
+                        <br>
+                          <table border="1" cellspacing="1" width="100%">
+                          <tr>
+                              <td colspan="4"><br><br></td>
+                             
+                           </tr>
+                           <tr>
+                              <td colspan="4"><br><br></td>
+                           </tr>
+                           <tr>
+                              <td colspan="4"><br><br></td>
+                           </tr> 
+                          <tr> 
+                              <td>APELLIDOS Y NOMBRE DEL JEFE DEL AREA:<br><br>
+                              <td>FIRMA:<br><br>
+                              </td>
+                              <td>SELLO:<br><br>
+                              </td>
+                              <td>FECHA:<br><br>
+                              </td>
+                          </tr>
+                            </table>
+        </div>
+    </section>
+    </div>
+    </div>
+    <!-- Hoja de Solvencia. -->
+
+    <div class="col-xxxl-6">
+        <div id="print-solvencia" style="display: none">
+                <section class="content">
+                        <div class="wrapper">
+                          <table border="0">
+                            <tr>
+                            <td width="15%" valign="top">
+                            <img  style="width:140px;height:130px; margin-left: 0px; margin-top: -10px" 
+                            class="" 
+                            src="https://app.ipsfa.gob.ve/assets/images/logo_ipsfa.png" id="_imgescudo"/><BR>     
+                        
+                            </td>
+                            <td width="80%" class="membrete">
+                                <p align="center" class="baner">
+                                        REPÚBLICA BOLIVARIANA DE VENEZUELA <BR>
+                                        MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<BR>
+                                        VICEMINISTERIO DE SERVICIOS PARA LA DEFENSA<BR>
+                                        DIRECCIÓN GENERAL DE EMPRESAS Y SERVICIOS<BR>
+                                        INSTITUTO DE PREVISIÓN SOCIAL DE LA FUERZA ARMADA NACIONAL BOLIVARIANA<BR>
+                                        RIF: G20003692-3<BR>
+                                        </p></td>
+                            <td width="5%"  valign="top">
+                                <!-- <img style="width: 90px;height: 90px; margin-left: 0px"  
+                                src='https://app.ipsfa.gob.ve/assets/images/ndisponible.jpg'  id="_fotoConstancia"/>
+                        
+                                <img width="45%" alt="Grado del Milita" id="_Constgrado" /><br> -->
+                                <!-- <label id="lblGradoFoto"></label> -->
+                            </td>
+                            </tr>
+                          </table>
+                          
+                          <h3>HOJA DE SOLVENCIA</h3>
+                            
+                                Solvencia para la tramitación de la carta de finiquito del capital colocado en la entidad fiduciaria
+                                respectiva (FIDECOMISO).
+                                <table border="0" width="100%">
+                                  <tr><td>APELLIDOS Y NOMBRE</td><td colspan="2"><b id="hsapelidosNombre"></b></td></tr>
+                    
+                                  <tr>
+                                      <td width="25%">CEDULA</td>
+                                      <td><b id="solvCedula"></b></td>
+                                      <td width="25%">GRADO</td>
+                                      <td><b id="solvGrado"></b></td>
+                                  </tr>
+                                  <tr>
+                                      <td>COMPONENTE</td>
+                                      <td><b id="solvComponente"></b></td>
+                                      <td>TIEMPO DE SERVICIO</td>
+                                      <td><b id="solvtiempoServicio"></b></td>
+                                    </tr>
+                                  <tr><td>CORREO ELECTRONICO</td><td></td><td>TELEFONO</td><td></td></tr>
+                                </table>
+                    
+                                <table border="0" width="100%" >
+                                  <!-- 1 -->
+                                  <tr>
+                                    <td colspan="4">1.- GERENCIA DE AFILIACIÓN: El personal Militar que tenga menos de 15 años de servicio deberá entregar los
+                                        carnets de todos los familiares afiliados.</td>
+                                  </tr>
+                                  <tr >
+                                    <td width="10px"><b>PB</b></td>
+                                    <td width="200px" align="right">SI <input type="checkbox"> &nbsp;&nbsp;&nbsp; NO <input type="checkbox">  </td>
+                                    <td style="text-align: center; width:150px">SELLO</td>
+                                    <td style="font-size: 11px; text-align: center">FIRMA AUTORIZADO<BR>CARGO<BR>FECHA</td>
+                                  </tr>
+                                  <!-- 2 -->
+                                  <tr>
+                                  <td colspan="4">2.- GERENCIA DE BIENESTAR SOCIAL: Indicar si posee medida de embargo sobre la asignacion de
+                                    antigüedad (Aplica a todo el personal militar).</td>
+                                  </tr>
+                                  <tr >
+                                    <td width="10px"><b>PB</b></td>
+                                    <td width="200px" align="right">SI <input type="checkbox"> &nbsp;&nbsp;&nbsp; NO <input type="checkbox">  </td>
+                                    <td style="text-align: center; width:150px">SELLO</td>
+                                    <td style="font-size: 11px; text-align: center">FIRMA AUTORIZADO<BR>CARGO<BR>FECHA</td>
+                                    </tr>
+                                  <!-- 3 -->
+                                  <tr>
+                                    <td colspan="4">3. GERENCIA DEL SISA: Indicar si posee deudas donde compromete la asignacion de antigüedad
+                                        (Aplica a todo el personal militar).</td>
+                                    </tr>
+                                    <tr>
+                                    <td width="10px"><b>PB</b></td>
+                                    <td width="200px" align="right">SI <input type="checkbox"> &nbsp;&nbsp;&nbsp; NO <input type="checkbox">  </td>
+                                    <td style="text-align: center; width:150px">SELLO</td>
+                                    <td style="font-size: 11px; text-align: center">FIRMA AUTORIZADO<BR>CARGO<BR>FECHA</td>
+                                  </tr>
+                                  <!-- 4 -->
+                                  <tr>
+                                    <td colspan="4">4.- GERENCIA DE VIVIENDA: Indicar si posee Vivienda en Guarnición (Aplica a todo el personal
+                                        militar).</td>
+                                  </tr>
+                                  <tr >
+                                    <td width="10px"><b>PB</b></td>
+                                    <td width="200px" align="right">SI <input type="checkbox"> &nbsp;&nbsp;&nbsp; NO <input type="checkbox">  </td>
+                                    <td style="text-align: center; width:150px">SELLO</td>
+                                    <td style="font-size: 11px; text-align: center">FIRMA AUTORIZADO<BR>CARGO<BR>FECHA</td>
+                                  </tr>
+                                  <!-- 5 -->
+                                  <tr>
+                                    <td colspan="4">5. GERENCIA DE FINANZAS: Indicar si posee deudas donde compromete la asignacion de antigüedad
+                                        (Aplica a todo el personal militar).</td>
+                                  </tr>
+                                  <tr>
+                                    <td width="10px"><b>PB</b></td>
+                                    <td width="200px" align="right">SI <input type="checkbox"> &nbsp;&nbsp;&nbsp; NO <input type="checkbox">  </td>
+                                    <td style="text-align: center; width:150px">SELLO</td>
+                                    <td style="font-size: 11px; text-align: center">FIRMA AUTORIZADO<BR>CARGO<BR>FECHA</td>
+                                  </tr>
+                                  <!-- 6 -->
+                                  <tr>
+                                    <td colspan="4">6. INVERSORA HORIZONTE Y SEGUROS HORIZONTE: Indicar si posee deudas donde compromete
+                                        la asignacion de antigüedad (Aplica a todo el personal militar).</td>
+                                  </tr>
+                                  <tr >
+                                    <td width="10px"><b>PB</b></td>
+                                    <td width="200px" align="right">SI <input type="checkbox"> &nbsp;&nbsp;&nbsp; NO <input type="checkbox">  </td>
+                                    <td style="text-align: center; width:150px">SELLO</td>
+                                    <td style="font-size: 11px; text-align: center">FIRMA AUTORIZADO<BR>CARGO<BR>FECHA</td>
+                                  </tr>
+                    
+                                </table><br>
+                    
+                                NOTA: DEBE INCLUIR LA COPIA DEL COMPROBANTE DE PRESENTACIÓN DE LA DECLARACIÓN JURADA DE PATRIMONIO POR "CESE DE
+                                FUNCIONES". CORREO ELECTRÓNICO: fideicomiso_byss@hotmail.com
+                            
+                          <br>
+                    
+                        </div>
+                        <div class="footer">
+                            <hr>
+                            Av. Los Proceres, Edf. Sede del IPSFA, P.B., Gerencia de Bienstar y Seguridad Social. 
+                            Dpto de Pensiones, Santa Monica, Municipio
+                            Libertador del Distrito Capital, Caracas. Correo Electrónico: drogueriaipsfaccs@gmail.com
+                        </div>
+                    </section>
+        </div>
+    </div>
+
+    <!-- Constancia de Pension. -->
+    <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6">
+            <div id="print-pension" style="display: none"> 
+                <section class="content">
+                    <div class="wrapper">
+                        <table border="0">
+                        <tr>
+                            <td width="15%" valign="top">
+                                    <img  style="width:140px;height:130px; margin-left: 0px; margin-top: -10px" 
+                                class="" 
+                                src="https://app.ipsfa.gob.ve/assets/images/logo_ipsfa.png" id="_imgescudo"/><BR>     
+                            
+                                </td>
+                                <td width="80%" class="membrete">
+                                    <p align="center" class="baner">
+                                            REPÚBLICA BOLIVARIANA DE VENEZUELA <BR>
+                                            MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<BR>
+                                            VICEMINISTERIO DE SERVICIOS PARA LA DEFENSA<BR>
+                                            DIRECCIÓN GENERAL DE EMPRESAS Y SERVICIOS<BR>
+                                            INSTITUTO DE PREVISIÓN SOCIAL DE LA FUERZA ARMADA NACIONAL BOLIVARIANA<BR>
+                                            RIF: G20003692-3<BR>
+                                            </p></td>
+                                <td width="5%"  valign="top">
+                                    <!-- <img style="width: 90px;height: 90px; margin-left: 0px"  
+                                    src='https://app.ipsfa.gob.ve/assets/images/ndisponible.jpg'  id="_fotoConstancia"/>
+                            
+                                    <img width="45%" alt="Grado del Milita" id="_Constgrado" /><br> -->
+                                    <!-- <label id="lblGradoFoto"></label> -->
+                                </td>
+                        </tr>
+                        </table>
+                        
+                        <p style="text-align: right"><b><i>Gerencia de Bienestar y Seguridad Social<br>
+                            Departamento de Pensiones<br></i></b>
+                        </p>
+                        
+                        <h3 style="text-align: center">CONSTANCIA DE PENSIÓN</h3>
+                        
+                        
+                        <p style="text-align:justify">
+                            Quien suscribe, General de División, Presidente de la Junta Administradora
+                            del Instituto de Previsión Social de las Fuerzas Armadas, por medio de
+                            la presente hace constar que el (la) Ciudadano(a), <b id="nombrecp"></b>, titular de la
+                            cédula de identidad N°: <b id="cedulacp"></b>, ingresó a la F.A.N.B., en fecha <b id="fingcp"></b>,
+                            acumuló un tiempo de servicio de <b id="facp"></b> años, <b id="fmcp"></b> meses y <b id="fdcp"></b> días, 
+                            forma parte de la
+                            reserva activa desde el <b id="fretcp"></b>, y percibe una pensión vitalicia mensual
+                            por este Instituto, por la cantidad de: Bs. <b id="montocp"></b>.<br>                    
+                            <br><br>
+                            Constancia que se expide a petición de la parte interesada a los <label id="lblfchActuals"> </label>.
+                            <br><br>
+                        </p>
+                        
+                        <table border="0" width="100%" >
+                                <tr>
+                                    <td width="10%" valign="top">
+                                        <img src='https://app.ipsfa.gob.ve/assets/images/selloafiliacion.png' 
+                                        valing="left" width="300px" style="margin-left: -50px;margin-right: -60px">
+                                    </td>
+                                    <td width="60%" valign="top">
+                                        <h4 style="text-align: center">
+                                            <img style="width: 250px;height: 120px;" 
+                                                src="https://app.ipsfa.gob.ve/assets/images/firma_digital.png" id="lblimgFirmaPITO"/><br>
+                                            <label id="lblnombrePIO">RENIER ENRIQUE URBÁEZ FERMÍN</label><br>
+                                            <label id="lblgradoPIFO">GENERAL DE DIVISIÓN</label><br>
+                                            PRESIDENTE DE LA JUNTA ADMINISTRADORA I.P.S.F.A.
+                                        </h4>           
+                                    </td>
+                                    <td width="30%" valign="top"></td>
+
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"><br>
+                                            <p style="text-align: center"><i>
+                                                CHAVEZ VIVE LA PATRÍA SIGUE<br>
+                                                INDEPENDENCIA Y PATRIA SOCIALISTA...VIVIREMOS Y VENCEREMOS<br>
+                                                “LEALES SIEMPRE, TRAIDORES NUNCA”<br></i>    
+                                            </p>
+                                        </td>
+                                    </tr>
+                            </table>
+                            
+                                                    
+                            
+                        
+                        <br>
+                
+                    </div>
+                    <div class="footer">
+                        <hr>
+                        Av. Los Proceres, Edf. Sede del IPSFA, P.B., Gerencia de Bienestar y Seguridad Social. Santa Monica, Municipio
+                        Libertador del Distrito Capital, Caracas. Correo Electrónico: bienestaripsfaccs@gmail.com, telefonos +58 414-3270828, 
+                        +58 412-6392184
+                    </div>
+                </section> 
+            </div>
+            
+            <!--
+                2)- Add the directive name in your button (ngxPrint),
+                3)- Affect your ID to printSectionId
+            -->
+            
+    </div>
+
+
+    <!-- Constancia de Pension Sobreviviente -->
+    <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6">
+            <div id="print-pension-sob" style="display: none"> 
+                <section class="content">
+                    <div class="wrapper">
+                        <table border="0">
+                        <tr>
+                            <td width="15%" valign="top">
+                            <img  style="width:140px;height:130px; margin-left: 0px; margin-top: -10px" 
+                            class="" 
+                            src="https://app.ipsfa.gob.ve/assets/images/logo_ipsfa.png" id="_imgescudo"/><BR>     
+                        
+                            </td>
+                            <td width="80%" class="membrete">
+                                <p align="center" class="baner">
+                                        REPÚBLICA BOLIVARIANA DE VENEZUELA <BR>
+                                        MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<BR>
+                                        VICEMINISTERIO DE SERVICIOS PARA LA DEFENSA<BR>
+                                        DIRECCIÓN GENERAL DE EMPRESAS Y SERVICIOS<BR>
+                                        INSTITUTO DE PREVISIÓN SOCIAL DE LA FUERZA ARMADA NACIONAL BOLIVARIANA<BR>
+                                        RIF: G20003692-3<BR>
+                                        </p></td>
+                            <td width="5%"  valign="top">
+                                <!-- <img style="width: 90px;height: 90px; margin-left: 0px"  
+                                src='https://app.ipsfa.gob.ve/assets/images/ndisponible.jpg'  id="_fotoConstancia"/>
+                        
+                                <img width="45%" alt="Grado del Milita" id="_Constgrado" /><br> -->
+                                <!-- <label id="lblGradoFoto"></label> -->
+                            </td>
+                        </tr>
+                        </table>
+                        
+                        <p style="text-align: right"><b><i>Gerencia de Bienestar y Seguridad Social<br>
+                            Departamento de Pensiones<br></i></b>
+                        </p>
+                        
+                        <h3 style="text-align: center">CONSTANCIA DE PENSIÓN SOBREVIVIENTE</h3>
+                        
+                        
+                        <p style="text-align:justify">
+                                Quien suscribe, General de División, Presidente de la Junta Administradora
+                                del Instituto de Previsión Social de las Fuerzas Armadas, por medio de
+                                la presente hace constar que el (la) Ciudadano(a), <b id="nombrefm"></b>, titular de la
+                                cédula de identidad N°: <b id="cedulafm"></b>, quien es <b id="relacionfm"></b>,
+                                del Ciudadano  <b id="gradotps"></b> titular de la Cedula de Identidad, <b id="cedulartps"></b> quien
+                                recibe una pensión vitalicia mensual por este Instituto, por la cantidad de: Bs. <b id="montocps"></b>.
+                                <br><br>
+                                Constancia que se expide a petición de la parte interesada a los <label id="lblfchActualsob"> </label>.
+                            <br><br>
+                        </p>
+                        
+                        <table border="0" width="100%" >
+                                <!-- <tr>
+                                    <td width="10%" valign="top">
+                                        <img src='https://app.ipsfa.gob.ve/assets/images/selloafiliacion.png' 
+                                        valing="left" width="300px" style="margin-left: -50px;margin-right: -60px">
+                                    </td>
+                                    <td width="60%" valign="top">
+                                        <h4 style="text-align: center">
+                                            <img style="width: 250px;height: 120px;" 
+                                                src="https://app.ipsfa.gob.ve/assets/images/firma_digital.png" id="lblimgFirmaPITO"/><br>
+                                            <label id="lblnombrePIO">RENIER ENRIQUE URBÁEZ FERMÍN</label><br>
+                                            <label id="lblgradoPIFO">GENERAL DE DIVISIÓN</label><br>
+                                            PRESIDENTE DE LA JUNTA ADMINISTRADORA I.P.S.F.A.
+                                        </h4>           
+                                    </td>
+                                    <td width="30%" valign="top"></td>
+
+                                    </tr> -->
+                                    <tr>
+                                        <td ><br>
+                                            <p style="text-align: center"><i>
+                                                CHAVEZ VIVE LA PATRÍA SIGUE<br>
+                                                INDEPENDENCIA Y PATRIA SOCIALISTA...VIVIREMOS Y VENCEREMOS<br>
+                                                “LEALES SIEMPRE, TRAIDORES NUNCA”<br></i>    
+                                            </p>
+                                        </td>
+                                    </tr>
+                            </table>
+                            
+                                                    
+                            
+                        
+                        <br>
+                
+                    </div>
+                    <div class="footer">
+                        <hr>
+                        Av. Los Proceres, Edf. Sede del IPSFA, P.B., Gerencia de Bienestar y Seguridad Social. Santa Monica, Municipio
+                        Libertador del Distrito Capital, Caracas. Correo Electrónico: bienestaripsfaccs@gmail.com
+                    </div>
+                </section> 
+            </div>
+            
+            <!--
+                2)- Add the directive name in your button (ngxPrint),
+                3)- Affect your ID to printSectionId
+            -->
+            
+    </div>
+
+
+    <!-- Constancia de Neto. -->
+    <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6">
+            <div id="print-netos" style="display: none"> 
+                <section class="content">
+                    <div class="wrapper">
+                        <table border="0">
+                        <tr>
+                        <td width="15%" valign="top">
+                            <img  style="width:140px;height:130px; margin-left: 0px; margin-top: -10px" 
+                            class="" 
+                            src="https://app.ipsfa.gob.ve/assets/images/logo_ipsfa.png" id="_imgescudo"/><BR>     
+                        
+                            </td>
+                            <td width="80%" class="membrete">
+                                <p align="center" class="baner">
+                                        REPÚBLICA BOLIVARIANA DE VENEZUELA <BR>
+                                        MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<BR>
+                                        VICEMINISTERIO DE SERVICIOS PARA LA DEFENSA<BR>
+                                        DIRECCIÓN GENERAL DE EMPRESAS Y SERVICIOS<BR>
+                                        INSTITUTO DE PREVISIÓN SOCIAL DE LA FUERZA ARMADA NACIONAL BOLIVARIANA<BR>
+                                        RIF: G20003692-3<BR>
+                                        </p></td>
+                            <td width="10%"  valign="top">
+                                <!-- <img style="width: 90px;height: 90px; margin-left: 0px"  
+                                src='https://app.ipsfa.gob.ve/assets/images/ndisponible.jpg'  id="_fotoConstancia"/>
+                        
+                                <img width="45%" alt="Grado del Milita" id="_Constgrado" /><br> -->
+                                <!-- <label id="lblGradoFoto"></label> -->
+                            </td>
+                        </tr>
+                        </table>
+                        
+                        <!-- <p style="text-align: right"><b><i>Gerencia de Bienestar y Seguridad Social<br>
+                            Departamento de Pensiones<br></i></b>
+                        </p> -->
+                        <h3 style="text-align: center" id="titulopension"></h3>
+                        <h3 style="text-align: center" id="fechapension"></h3>
+                        <div id="contenidoNeto"></div>
+                        
+                        
+                        
+                        <table border="0" width="100%">
+                            <!-- <tr>
+                                <td width="20%" valign="top">
+                                    <img src='https://app.ipsfa.gob.ve/assets/images/selloafiliacion.png' 
+                                    valing="left" width="300px" style="margin-left: -50px;margin-right: -55px">
+                                </td>
+                                <td width="65%" valign="top">
+                                    <h4 style="text-align: center">
+                                        <img style="width: 250px;height: 120px;" 
+                                            src="https://app.ipsfa.gob.ve/assets/images/firma_digital.png" id="lblimgFirmaPITO"/><br>
+                                        <label id="lblnombrePIO">RENIER ENRIQUE URBÁEZ FERMÍN</label><br>
+                                        <label id="lblgradoPIFO">GENERAL DE DIVISIÓN</label><br>
+                                        PRESIDENTE DE LA JUNTA ADMINISTRADORA I.P.S.F.A.
+                                    </h4>           
+                                </td>
+                                <td width="15%" valign="top"></td>
+                            </tr> -->
+                        </table>
+                            
+
+                            
+                        
+                        <br>
+                
+                    </div>
+                    <div class="footer">
+                        <hr>
+                        Av. Los Proceres, Edf. Sede del IPSFA, P.B., Gerencia de Bienestar y Seguridad Social. Santa Monica, Municipio
+                        Libertador del Distrito Capital, Caracas. Correo Electrónico: bienestaripsfaccs@gmail.com
+                    </div>
+                </section> 
+            </div>
+            
+            <!--
+                2)- Add the directive name in your button (ngxPrint),
+                3)- Affect your ID to printSectionId
+            -->
+            
+    </div>
+
+
+
+    <!-- Constancia de Neto de Sobrevivientes -->
+    <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6">
+            <div id="print-netos-sob" style="display: none"> 
+                <section class="content">
+                    <div class="wrapper">
+                        <table border="0">
+                        <tr>
+                            <td width="15%" valign="top">
+                                <img  style="width:140px;height:130px; margin-left: 0px; margin-top: -10px" 
+                                class="" 
+                                src="https://app.ipsfa.gob.ve/assets/images/logo_ipsfa.png" id="_imgescudo"/><BR>     
+                            
+                                </td>
+                                <td width="80%" class="membrete">
+                                    <p align="center" class="baner">
+                                            REPÚBLICA BOLIVARIANA DE VENEZUELA <BR>
+                                            MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<BR>
+                                            VICEMINISTERIO DE SERVICIOS PARA LA DEFENSA<BR>
+                                            DIRECCIÓN GENERAL DE EMPRESAS Y SERVICIOS<BR>
+                                            INSTITUTO DE PREVISIÓN SOCIAL DE LA FUERZA ARMADA NACIONAL BOLIVARIANA<BR>
+                                            RIF: G20003692-3<BR>
+                                            </p></td>
+                                <td width="5%"  valign="top">
+                                    <!-- <img style="width: 90px;height: 90px; margin-left: 0px"  
+                                    src='https://app.ipsfa.gob.ve/assets/images/ndisponible.jpg'  id="_fotoConstancia"/>
+                            
+                                    <img width="45%" alt="Grado del Milita" id="_Constgrado" /><br> -->
+                                    <!-- <label id="lblGradoFoto"></label> -->
+                                </td>
+                        </tr>
+                        </table>
+                        
+                        <!-- <p style="text-align: right"><b><i>Gerencia de Bienestar y Seguridad Social<br>
+                            Departamento de Pensiones<br></i></b>
+                        </p> -->
+                        <h3 style="text-align: center" id="titulopensionsob"></h3>
+                        <h3 style="text-align: center" id="fechapensionsob"></h3>
+                        <div id="contenidoNetoSob"></div>
+                        
+                        
+                        
+                        <table border="0">
+                            <!-- <tr>
+                                <td width="20%" valign="top">
+                                    <img src='https://app.ipsfa.gob.ve/assets/images/selloafiliacion.png' 
+                                    valing="left" width="300px" style="margin-left: -50px;margin-right: -55px">
+                                </td>
+                                <td width="65%" valign="top">
+                                    <h4 style="text-align: center">
+                                        <img style="width: 250px;height: 120px;" 
+                                            src="https://app.ipsfa.gob.ve/assets/images/firma_digital.png" id="lblimgFirmaPITO"/><br>
+                                        <label id="lblnombrePIO">RENIER ENRIQUE URBÁEZ FERMÍN</label><br>
+                                        <label id="lblgradoPIFO">GENERAL DE DIVISIÓN</label><br>
+                                        PRESIDENTE DE LA JUNTA ADMINISTRADORA I.P.S.F.A.
+                                    </h4>           
+                                </td>
+                                <td width="15%" valign="top"></td>
+                            </tr> -->
+                        </table>
+                            
+
+                            
+                        
+                        <br>
+                
+                    </div>
+                    <div class="footer">
+                        <hr>
+                        Av. Los Proceres, Edf. Sede del IPSFA, P.B., Gerencia de Bienestar y Seguridad Social. Santa Monica, Municipio
+                        Libertador del Distrito Capital, Caracas. Correo Electrónico: bienestaripsfaccs@gmail.com
+                    </div>
+                </section> 
+            </div>
+            
+            <!--
+                2)- Add the directive name in your button (ngxPrint),
+                3)- Affect your ID to printSectionId
+            -->
+            
+    </div>
+
+
+    <!-- Autrorización de médicamentos . -->
+    <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6">
+        <div id="print-medicamentos" style="display: none"> 
+
+            <section class="content">
+                <div class="wrapper">
+                <table border="0">
+                    <tr>
+                        <td width="15%" valign="top">
+                        <img  style="width:140px;height:130px; margin-left: 0px; margin-top: -10px" 
+                        class="" 
+                        src="https://app.ipsfa.gob.ve/assets/images/logo_ipsfa.png" id="_imgescudo"/><BR>     
+                    
+                        </td>
+                        <td width="80%" class="membrete">
+                            <p align="center" class="baner">
+                                    REPÚBLICA BOLIVARIANA DE VENEZUELA <BR>
+                                    MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<BR>
+                                    VICEMINISTERIO DE SERVICIOS PARA LA DEFENSA<BR>
+                                    DIRECCIÓN GENERAL DE EMPRESAS Y SERVICIOS<BR>
+                                    INSTITUTO DE PREVISIÓN SOCIAL DE LA FUERZA ARMADA NACIONAL BOLIVARIANA<BR>
+                                    RIF: G20003692-3<BR>
+                                    </p></td>
+                        <td width="5%"  valign="top">
+                            <!-- <img style="width: 90px;height: 90px; margin-left: 0px"  
+                            src='https://app.ipsfa.gob.ve/assets/images/ndisponible.jpg'  id="_fotoConstancia"/>
+                    
+                            <img width="45%" alt="Grado del Milita" id="_Constgrado" /><br> -->
+                            <!-- <label id="lblGradoFoto"></label> -->
+                        </td>
+                    </tr>
+                </table>
+                
+                <h3 style="text-align: center">AUTORIZACIÓN AFILIADO / TRATAMIENTOS A TRAVÉS DE LOS DIFERENTES CONVENIOS.</h3>
+                <br>
+                <p >
+                    Quien suscribe <b id="bNombreT">________________________________________</b>
+                    C.I N° <b id="bCedulaT">_______________</b>, por medio del presente
+                    documento autorizado al ciudadano (a) _________________________________________________________ 
+                    C.I N° ____________________, a retirar en la empresa 
+                    ______________________________; los MEDICAMENTOS asignados a mi persona para el 
+                    <b id="bFechaT"></b>
+                    producto de convenio IPSFA con la mencionada empresa.
+                </p>
+                <br><br>
+                <table border="0" cellspacing="0" celladding="0" width="100%">
+                    <tr>
+                        <td width="50%"  align="center">FIRMA AUTÓGRAFA DEL AFILIADO</td>
+                        <td width="50%" align="center">FIRMA DEL AUTORIZADO O<BR> HUELLA DACTILAR</td>
+                    </tr>
+        
+                </table>
+                <br>
+                <p>
+                    Documentos a consignar adjunto a la autorización:<br><br>
+                    1.- Copia del carné del afiliado.<br>
+                    2.- Copia de la cédula de identidad del afiliado y del autorizado<br>
+                    3.- Recipe médico en original. (MEDICAMENTOS CONTROLADOS Y TRATAMIENTO ESPECIAL).<br>
+                    4.- Nota: Si requiere medicamento refrigerado, favor llevar caba.
+                </p>
+                        
+                        <table border="0" cellspacing="0" celladding="0">
+                        <tr>
+                            <td rowspan="2">
+                            <img src="https://app.ipsfa.gob.ve/assets/images/selloNuevo.png" valing="left" 
+                            width="300px" style="margin-right: -20px">
+                            </td>
+                            <td valign="bottom"  style="text-align: center">
+                            
+                                <img src="https://app.ipsfa.gob.ve/assets/images/firma_autorizacion.png" id="_imgescudo"  width="220px"/>
+                            
+                            </td>
+                        </tr>
+                        <tr>
+                            
+                            <td valign="top" style="text-align: center">TCNEL. LINDA CLARET GUERRERO VELASCO<Br>
+                            GERENTE DE DROGUERIA Y FARMACIAS
+                            </td>
+                        </tr>
+                        </table>
+                        
+                        
+                            
+                
+        
+                </div>
+                <div class="footer">
+                    <hr>
+                    Av. Los Proceres, Edf. Sede del IPSFA, P.B., Gerencia de Drogueria y Farmacias. Dpto de Pensiones, Santa Monica, Municipio
+                    Libertador del Distrito Capital, Caracas. Correo Electrónico: drogueriaipsfaccs@gmail.com
+                </div>
+            </section>
+        </div>
+    </div>       
+
+</div> <!-- fin de row -->

@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import { NB_WINDOW, NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 
 import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
-import { map, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
+import { LoginService } from '../../../servicios/security/login.service'
 @Component({
   selector: 'ngx-header',
   styleUrls: ['./header.component.scss'],
@@ -17,39 +17,34 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userPictureOnly: boolean = false;
   user: any;
 
-  themes = [
-    {
-      value: 'default',
-      name: 'Light',
-    },
-    {
-      value: 'dark',
-      name: 'Dark',
-    },
-    {
-      value: 'cosmic',
-      name: 'Cosmic',
-    },
-    {
-      value: 'corporate',
-      name: 'Corporate',
-    },
-  ];
+  currentTheme = '';
 
-  currentTheme = 'default';
+  userMenu = [  { title: 'Cerrar sesión'} ];
+  usuarionick = '';
+  issobre = false;
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  Causante = [];
+
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
               private themeService: NbThemeService,
               private userService: UserData,
               private layoutService: LayoutService,
-              private breakpointService: NbMediaBreakpointsService) {
+              private breakpointService: NbMediaBreakpointsService,
+              private loginService: LoginService) {
+    
+    var usr = this.loginService.getUserDecrypt();
+    
+    if(usr.WUsuario.sobreviviente != undefined ){
+      this.issobre = true;
+      this.Causante = usr.WUsuario.causante;
+      console.log(this.Causante);
+    }
   }
 
   ngOnInit() {
-    this.currentTheme = this.themeService.currentTheme;
+    
 
     this.userService.getUsers()
       .pipe(takeUntil(this.destroy$))
@@ -69,6 +64,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe(themeName => this.currentTheme = themeName);
+      var Usr = this.loginService.getUserDecrypt();
+      //console.log(Usr.WUsuario.apellido);
+      this.usuarionick = Usr.WUsuario.grado + '. ' + Usr.WUsuario.apellido;
+
+
+      this.menuService.onItemClick()
+      .pipe(
+        filter(({ tag }) => tag === 'my-context-menu'),
+        map(({ item: { title } }) => title),
+      ).subscribe( (title) => {
+          if(title == "Cerrar sesión"){
+            this.logout();
+          }  
+        } 
+        
+      )
+    
   }
 
   ngOnDestroy() {
@@ -76,9 +88,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  changeTheme(themeName: string) {
-    this.themeService.changeTheme(themeName);
-  }
 
   toggleSidebar(): boolean {
     this.sidebarService.toggle(true, 'menu-sidebar');
@@ -90,5 +99,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   navigateHome() {
     this.menuService.navigateHome();
     return false;
+  }
+
+  seleccionarCausante(valor: string){
+    sessionStorage.setItem("id", valor);
+  }
+
+  logout(){
+    this.loginService.logout();
   }
 }
