@@ -16,6 +16,13 @@ export interface IToken{
   token : string,
 }
 
+export interface Usuario  {
+  nombre: string;
+  clave: string;
+  clase: string;
+}
+
+
 export interface UClave{
   login: string,
   clave : string,
@@ -46,6 +53,7 @@ export class LoginService {
       "clave" : clave,
     };
     var url = this.urlGet + 'login';
+    console.info(url)
     
     return this.http.post<IToken>(url, usuario );
   }

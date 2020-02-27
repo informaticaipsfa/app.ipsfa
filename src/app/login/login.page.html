@@ -1,4 +1,4 @@
-<nb-layout center>
+<!-- <nb-layout center>
 
     
     <nb-layout-column center>
@@ -17,30 +17,14 @@
                                 <div class="form-control-group">
                                 
                                   <label class="label" for="input-email">Cédula de identidad:</label>
-                                  <input nbInput
-                                         fullWidth
-                                         name="usuario"
-                                         id="input-email"
-                                         placeholder="Cédula de identidad"
-                                         fieldSize="large"
-                                         [(ngModel)]="usuario" 
-                                         value="{{usuario}}"
-                                         autofocus>
+                                  
                                 </div>
                                 <div class="form-control-group">
                                   <span class="label-with-link">
                                     <label class="label" for="input-password">Clave:</label>
-                                    <a class="forgot-password caption-2" routerLink="../request-password"> Recuperar clave?</a>
+                                    
                                   </span>
-                                  <input nbInput
-                                         fullWidth
-                                         name="clave"
-                                         type="password"
-                                         id="input-password"
-                                         placeholder="Clave"
-                                         fieldSize="large"
-                                         [(ngModel)]="clave" 
-                                         value="{{clave}}">
+                                 
                                 </div>
                               
                                 
@@ -80,4 +64,91 @@
 
 
 </nb-layout>
+ -->
 
+
+
+<nb-layout center>
+    <nb-layout-column>
+      <!-- <img src="assets/images/cintillo.png" class="cintillo" > -->
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-5 col-sm-6 col-xs-12"></div>
+              <div class="col-lg-6 col-md-7 col-sm-12 col-xs-12">
+                     
+                  <nb-card accent="success" [nbSpinner]="loading"
+                           nbSpinnerStatus="danger"
+                           nbSpinnerSize="large">
+                          <nb-card-header >
+                            <p style="text-align:center"><img src="assets/images/ipsfa.jpg" class="logo"></p>
+                            <h1 class="sub-title">Bienvenido</h1>  
+                          </nb-card-header>
+                          <nb-card-body><br>
+                              <form >
+                              <input nbInput
+                              fullWidth
+                              name="usuario"
+                              id="input-email"
+                              placeholder="Cédula de identidad"
+                              fieldSize="large"
+                              [(ngModel)]="usuario" 
+                              value="{{usuario}}"
+                              autofocus style="margin-top: -5%;">
+                              
+                              <p>&nbsp;</p>
+                              
+                              <input nbInput
+                              fullWidth
+                              name="clave"
+                              type="password"
+                              id="input-password"
+                              placeholder="Clave"
+                              fieldSize="large"
+                              [(ngModel)]="clave" 
+                              value="{{clave}}"
+                              style="margin-top: -10%;" (keyup)="PresionarEnter($event)">
+                              <p class="text-right">
+                                <a  routerLink="../request-password"></a></p>
+                            
+        
+                                <div class="row">
+                                    
+                                      <div class="col-lg-6">
+
+                                          <button nbButton
+                                          fullWidth
+                                          
+                                          status="success"
+                                          size="large"
+                                          
+                                          
+                                         (click) = "login('top-right', 'danger')"
+                                          [nbSpinner]="loading" nbSpinnerStatus="info" 
+                                          nbSpinnerSize="medium" nbSpinnerMessage=""
+                                          >Iniciar Sesión</button>
+                                      </div>
+                                      <div class="col-lg-6">
+                                          <button nbButton
+                                              fullWidth
+                                              
+                                              status="cancel"
+                                              size="large"
+                                              routerLink="../registrarse">
+                                              registrarse
+                                          </button>
+                                      </div>
+                                     
+                                  </div>
+                            
+                           </form>              
+                          </nb-card-body>
+                      <a style="margin-top: -10%;" class="title"><small><br>© Copyright 2020 IPSFA- Todos los Derechos Reservados </small></a>
+                  </nb-card>
+              </div>  
+        </div>
+      </div>
+    </nb-layout-column>
+    
+  </nb-layout>
+  <div class="footer">Instituto De Previsión Social la Fuerzas Armadas - IPSFA
+  Dirección de Informática </div>

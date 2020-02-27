@@ -2,11 +2,20 @@
 
     
     <nb-layout-column center>
+
+
+        <nb-card accent="success" [nbSpinner]="loading"
+        nbSpinnerStatus="danger"
+             nbSpinnerSize="large">
+       <nb-card-header >
+
+
             <h1 id="title" class="title">Registrarse</h1>
             <p class="sub-title">Hola! Bienvenidos a Ipsfa en línea.</p>
    
-
-        <div class="row">
+        </nb-card-header>
+        <nb-card-body><br>
+          <div class="row">
                 <div class="col-lg-12">
 
                         
@@ -128,7 +137,9 @@
                               </form>
                 </div>
         </div>
-
+      </nb-card-body>
+        
+      </nb-card>
 
     </nb-layout-column>
     

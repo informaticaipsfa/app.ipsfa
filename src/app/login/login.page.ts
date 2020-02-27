@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginService, IToken } from '../servicios/security/login.service';
+import { LoginService, Usuario, IToken } from '../servicios/security/login.service';
+import { FormsModule } from '@angular/forms';
 import { NbToastrService } from '@nebular/theme';
 
 
@@ -12,6 +13,14 @@ import { NbToastrService } from '@nebular/theme';
 
 
 export class LoginPage implements OnInit {
+
+
+  protected options: {};
+  
+  nombre: string;
+  clase: string;
+  selectedItem: string;
+  estatus: string;
 
   redirectDelay: number;
   showMessages: any;
@@ -40,6 +49,9 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
+
+
+
   async login(position, status){
     this.loading = true;
     await this.loginService.getLogin(this.usuario, this.clave).subscribe(
@@ -58,12 +70,18 @@ export class LoginPage implements OnInit {
         this.isHidden = false;
 
         this.toastrService.show(
-          'Error al acceder a los datos de conexion',
-          `Ipsfa en línea`,
+          status || 'Success',
+          `Error al acceder a los datos de conexion`,
           { position, status }
         );
       }
     );
+  }
+
+  PresionarEnter(e) {
+    if (e.keyCode === 13) {
+      this.login('top-right', 'danger');
+    }
   }
 
 }

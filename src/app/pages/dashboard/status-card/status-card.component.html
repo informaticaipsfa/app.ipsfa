@@ -166,6 +166,27 @@
         </nb-card>
     </div>
     
+
+    <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6" id="divarc" [style.display]="ispen? 'initial': 'none'">
+            <nb-card >
+                <div class="icon-container">
+                    <div class="icon status-primary">
+                            <nb-icon icon="pantone-outline" style="font-size: 3rem;"></nb-icon>
+                    </div>
+                </div>
+                <div class="details">
+                    <div class="title h6">Constancia ARC</div>
+                    <div class="status paragraph-2">
+                            <button nbButton status="warning" (click)="GenerarARC(dialog)" 
+                            size="tiny"
+                            [nbSpinner]="loadingnet" 
+                            nbSpinnerStatus="warning" 
+                            nbSpinnerSize="tiny" 
+                            nbSpinnerMessage="">Consultar </button>  
+                    </div>
+                </div>
+            </nb-card>
+        </div>
 </div>
 
 <!-- 
@@ -1271,5 +1292,102 @@
             </section>
         </div>
     </div>       
+
+
+
+        <!-- Constancia de AR-C -->
+    <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6">
+        <div id="print-pension-arc" style="display: none"> 
+            <section class="content">
+                <div class="wrapper">
+                    <table border="0">
+                    <tr>
+                        <td width="15%" valign="top">
+                        <img  style="width:140px;height:130px; margin-left: 0px; margin-top: -10px" 
+                        class="" 
+                        src="https://app.ipsfa.gob.ve/assets/images/logo_ipsfa.png" id="_imgescudo"/><BR>     
+                    
+                        </td>
+                        <td width="80%" class="membrete">
+                            <p align="center" class="baner">
+                                    REPÚBLICA BOLIVARIANA DE VENEZUELA <BR>
+                                    MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<BR>
+                                    VICEMINISTERIO DE SERVICIOS PARA LA DEFENSA<BR>
+                                    DIRECCIÓN GENERAL DE EMPRESAS Y SERVICIOS<BR>
+                                    INSTITUTO DE PREVISIÓN SOCIAL DE LA FUERZA ARMADA NACIONAL BOLIVARIANA<BR>
+                                    RIF: G20003692-3<BR>
+                                    </p></td>
+                        <td width="5%"  valign="top">
+                            <!-- <img style="width: 90px;height: 90px; margin-left: 0px"  
+                            src='https://app.ipsfa.gob.ve/assets/images/ndisponible.jpg'  id="_fotoConstancia"/>
+                    
+                            <img width="45%" alt="Grado del Milita" id="_Constgrado" /><br> -->
+                            <!-- <label id="lblGradoFoto"></label> -->
+                        </td>
+                    </tr>
+                    </table>
+                    
+                    <p style="text-align: right"><b><i>Gerencia de Bienestar y Seguridad Social<br>
+                        Departamento de Pensiones<br></i></b>
+                    </p>
+                    
+                    <h3 style="text-align: center">CONSTANCIA DE AR-C</h3>
+                    
+                    
+                    <p style="text-align:justify">
+                           
+                        
+                        <br><br>
+                    </p>
+                    
+                    <table border="0" width="100%" >
+                            <!-- <tr>
+                                <td width="10%" valign="top">
+                                    <img src='https://app.ipsfa.gob.ve/assets/images/selloafiliacion.png' 
+                                    valing="left" width="300px" style="margin-left: -50px;margin-right: -60px">
+                                </td>
+                                <td width="60%" valign="top">
+                                    <h4 style="text-align: center">
+                                        <img style="width: 250px;height: 120px;" 
+                                            src="https://app.ipsfa.gob.ve/assets/images/firma_digital.png" id="lblimgFirmaPITO"/><br>
+                                        <label id="lblnombrePIO">RENIER ENRIQUE URBÁEZ FERMÍN</label><br>
+                                        <label id="lblgradoPIFO">GENERAL DE DIVISIÓN</label><br>
+                                        PRESIDENTE DE LA JUNTA ADMINISTRADORA I.P.S.F.A.
+                                    </h4>           
+                                </td>
+                                <td width="30%" valign="top"></td>
+
+                                </tr> -->
+                                <tr>
+                                    <td ><br>
+                                        <p style="text-align: center"><i>
+                                            CHAVEZ VIVE LA PATRÍA SIGUE<br>
+                                            INDEPENDENCIA Y PATRIA SOCIALISTA...VIVIREMOS Y VENCEREMOS<br>
+                                            “LEALES SIEMPRE, TRAIDORES NUNCA”<br></i>    
+                                        </p>
+                                    </td>
+                                </tr>
+                        </table>
+                        
+                                                
+                        
+                    
+                    <br>
+            
+                </div>
+                <div class="footer">
+                    <hr>
+                    Av. Los Proceres, Edf. Sede del IPSFA, P.B., Gerencia de Bienestar y Seguridad Social. Santa Monica, Municipio
+                    Libertador del Distrito Capital, Caracas. Correo Electrónico: bienestaripsfaccs@gmail.com
+                </div>
+            </section> 
+        </div>
+        
+        <!--
+            2)- Add the directive name in your button (ngxPrint),
+            3)- Affect your ID to printSectionId
+        -->
+        
+    </div>
 
 </div> <!-- fin de row -->
