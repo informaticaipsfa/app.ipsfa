@@ -179,7 +179,7 @@
                     <div class="status paragraph-2">
                             <button nbButton status="warning" (click)="GenerarARC(dialog)" 
                             size="tiny"
-                            [nbSpinner]="loadingnet" 
+                            [nbSpinner]="loadingarc" 
                             nbSpinnerStatus="warning" 
                             nbSpinnerSize="tiny" 
                             nbSpinnerMessage="">Consultar </button> 
@@ -688,8 +688,8 @@
     </section>
     </div>
     </div>
+    
     <!-- Hoja de Solvencia. -->
-
     <div class="col-xxxl-6">
         <div id="print-solvencia" style="display: none">
                 <section class="content">
@@ -927,12 +927,6 @@
                     </div>
                 </section> 
             </div>
-            
-            <!--
-                2)- Add the directive name in your button (ngxPrint),
-                3)- Affect your ID to printSectionId
-            -->
-            
     </div>
 
 
@@ -1030,12 +1024,6 @@
                     </div>
                 </section> 
             </div>
-            
-            <!--
-                2)- Add the directive name in your button (ngxPrint),
-                3)- Affect your ID to printSectionId
-            -->
-            
     </div>
 
 
@@ -1307,7 +1295,7 @@
 
 
 
-        <!-- Constancia de AR-C -->
+    <!-- Constancia de AR-C -->
     <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6">
         <div id="print-pension-arc" style="display: none"> 
             <section class="content">
@@ -1331,11 +1319,7 @@
                                     RIF: G20003692-3<BR>
                                     </p></td>
                         <td width="5%"  valign="top">
-                            <!-- <img style="width: 90px;height: 90px; margin-left: 0px"  
-                            src='https://app.ipsfa.gob.ve/assets/images/ndisponible.jpg'  id="_fotoConstancia"/>
-                    
-                            <img width="45%" alt="Grado del Milita" id="_Constgrado" /><br> -->
-                            <!-- <label id="lblGradoFoto"></label> -->
+                            
                         </td>
                     </tr>
                     </table>
@@ -1347,11 +1331,10 @@
                     <h3 style="text-align: center">CONSTANCIA DE AR-C</h3>
                     
                     
-                    <p style="text-align:justify">
-                           
-                        
-                        <br><br>
-                    </p>
+                    <div style="text-align:justify" id="divConstanciaARC">
+                          
+                                                
+                    </div>
                     
                     <table border="0" width="100%" >
                             <!-- <tr>

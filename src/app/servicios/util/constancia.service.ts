@@ -40,7 +40,13 @@ export class ConstanciaService {
   getFideicomiso(id: string ): any{
     return this.http.get(this.urlGet + 'pace/consultarbeneficiario/' + id);
   }
+  //Conceptos 
   getConceptos(): any{    
     return this.http.get<any>(this.urlGet + 'nomina/conceptos/listar/');
+  }
+
+  //Constancia AR-C
+  getConstaciARC(obj): any{    
+    return this.http.post<any>(this.urlGet + 'pensionado/calcularretroactivo', obj);
   }
 }

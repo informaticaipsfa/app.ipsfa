@@ -147,6 +147,12 @@ export class UtilidadesService {
       //return fa[2] + "/" + fa[1] + "/" + fa[0];
   }
 
+  ConvertirFechaCalculos(f: string) {
+    var ISODate = new Date(f).toISOString();
+    var fe = ISODate.substr(0, 10);
+    return fe;    
+  }
+
   ConvertirFechaActual() {
       var meses = new Array("enero", "febrero", "marzo", "abril", "mayo", "junio",
           "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre");
@@ -204,6 +210,59 @@ export class UtilidadesService {
     var derecha = cadena.substring(0, 4);
     var izquierda = cadena.substring(16);
     return derecha + '****************' + izquierda;
+  }
+
+  AntiguedadGrado(fecha, fecha_retiro){    
+    var arr = [];
+    
+    var fecha_r = fecha_retiro.split("-");
+    var ano_r = fecha_r[0];
+    var mes_r = fecha_r[1];
+    var dia_r = fecha_r[2];
+
+    var list = fecha.split("-");
+    var ano = list[0];
+    var mes = list[1];
+    var dia = list[2];
+
+    var dia_dif, mes_dif, ano_dif = 0
+
+    if (dia_r < dia){
+      dia_dif =  (dia_r+30) - dia; //27 -5
+      mes_r--;
+    }else{
+      dia_dif =  dia_r - dia; //27 -5
+    }
+
+    if (mes_r < mes){
+       mes_dif =  (mes_r + 12) - mes; //27 -5
+       ano_r--;
+    }else{
+      mes_dif =  mes_r - mes;
+    }
+
+    ano_dif = ano_r - ano;
+    arr['e'] = ano_dif;
+
+    if(mes_dif > 5) {
+      arr['n'] = ano_dif + 1;
+    }else{
+      arr['n'] = ano_dif;
+    }
+
+    return arr;
+
+  }
+
+  FormatoMoneda( valor ) : string{
+    var n = parseFloat( valor );
+    var s = '' //numeral(n).format('0.0,');
+    var r1 = s.replace('.', '#');
+    console.log(s);
+    var r2 = r1.replace(/,/g, '.');
+    var r3 = r2.replace('#', ',');
+
+    return ''
   }
 
 }

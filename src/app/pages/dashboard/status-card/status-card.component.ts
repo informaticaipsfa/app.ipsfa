@@ -4,6 +4,9 @@ import { UtilidadesService } from '../../../servicios/util/utilidades.service';
 import { LoginService } from '../../../servicios/security/login.service';
 import { NbThemeService, NbDialogService, NbToastrService } from '@nebular/theme';
 import {NgxPrintModule} from 'ngx-print';
+import * as $ from 'jquery';
+import { format } from 'path';
+import { formatCurrency } from '@angular/common';
 
 
 @Component({
@@ -31,6 +34,9 @@ export class StatusCardComponent implements OnDestroy  {
   loadingmed = false;
   loadingnet = false;
   loadingrepor = false;
+  loadingarc = false;
+  
+
   isHmed = true;
   isHidden: boolean = true;
   isHc: boolean = true;
@@ -54,6 +60,12 @@ export class StatusCardComponent implements OnDestroy  {
   lstNetos = [];
   lstNetosFamiliar = [];
   pos = 0;
+
+  //FORMATO AR-C
+  ArcPorcentaje = 0
+  ArcAguinaldo = 0
+  CabeceraFamiliar = ''
+  Militar: any = {}
 
   constructor(
       private themeService: NbThemeService, 
@@ -469,7 +481,7 @@ export class StatusCardComponent implements OnDestroy  {
                           <tr>
                               <td align="left">&nbsp;&nbsp;${sueldomensual}</td>
                               <td align="right"></td>
-                              <td align="right" style="width:200px">${montostr}&nbsp;&nbsp;</td>
+                              <td align="right" style="width:200px">${ montostr }&nbsp;&nbsp;</td>
                               <td align="right" style="width:200px"></td>
                           </tr>`;
                       asignacion += monto;
@@ -491,7 +503,7 @@ export class StatusCardComponent implements OnDestroy  {
                               <td align="left">&nbsp;&nbsp;${strconceptos}</td>
                               <td align="right"></td>
                               <td align="right"></td>
-                              <td align="right" style="width:200px">${montostr}&nbsp;&nbsp;</td>
+                              <td align="right" style="width:200px">${ montostr }&nbsp;&nbsp;</td>
                           </tr>`;
                       deduccion += monto;
                   }
@@ -500,8 +512,8 @@ export class StatusCardComponent implements OnDestroy  {
         }
         fila += `<tr>
                     <td align="right" colspan='2'>TOTAL&nbsp;&nbsp;</td>
-                    <td align="right" style="width:200px">${asignacion}&nbsp;&nbsp;</td>
-                    <td align="right" style="width:200px">${deduccion}&nbsp;&nbsp;</td>
+                    <td align="right" style="width:200px">${ asignacion }&nbsp;&nbsp;</td>
+                    <td align="right" style="width:200px">${ deduccion }&nbsp;&nbsp;</td>
                 </tr>`;
         var neto = asignacion - deduccion;
         //console.log(fila);
@@ -830,6 +842,422 @@ export class StatusCardComponent implements OnDestroy  {
   }
 
 
+  GenerarARC( dialog ){
+    var sobreviviente = false
+    var usr = this.loginService.getUserDecrypt();
+    this.loadingru = true;
+    console.log(usr);
+    var cedula = ''
+    cedula = usr.WUsuario.cedula
+    if ( sessionStorage.getItem("id") != undefined ){
+      cedula = sessionStorage.getItem("id")
+      sobreviviente = true
+    }
+ 
+
+    this.constanciaService.getConstanciaAfiliacion( cedula ).subscribe(
+      (data) => {
+        console.log(data)
+        this.Militar = data
+        var ti = parseInt(  data.tiemposervicio.split("A")[0] );
+        var antiguedad = this.utlidad.AntiguedadGrado(data.fascenso, data.fretiro); 
+        var Calc = {
+          inicio : "2019-01-01",
+          fin : "2019-12-31",
+          fingreso : this.utlidad.ConvertirFechaCalculos(data.fingreso),
+          fascenso : this.utlidad.ConvertirFechaCalculos(data.fascenso),    
+          fretiro : this.utlidad.ConvertirFechaCalculos(data.fretiro),
+          grado :  data.Grado.descripcion,
+          codigo :  data.Grado.abreviatura,
+          componente : data.Componente.abreviatura,
+          antiguedad : "" + antiguedad['n'] + "",
+          tiempo : "" + ti + "",
+          situacion : data.situacion,          
+          hijos : "0",
+          porcentaje : "" + data.Pension.pprestaciones + "",
+        };
+        this.ArcPorcentaje =  0
+
+        this.constanciaService.getConstaciARC(Calc).subscribe(
+          (req) => {
+            console.log(req);
+            
+            if ( sobreviviente == true ){
+              this.CabeceraFamiliar = this.cabeceraFamiliar(data.Familiar, cedula) 
+            }
+           
+            var max = req.Retroactivo.length; 
+            var retroactivo = req.Retroactivo[ max - 1 ]
+            this.ArcAguinaldo = retroactivo.AGUI0004.mt            
+
+            this.DibujarTablaArc(req)
+            
+
+          }, //Fin del caso 
+          (error) => {
+            console.error(error)
+          }
+
+        ); //FIN CALCULADORAAAA
+
+
+      }, //Fin del caso 
+        (error) => {
+          console.error(error)
+        }
+      );
+   
+ 
+  }
+
+  cabeceraFamiliar(familiar, id){
+    var pos = 0
+    var i = 0
+    familiar.forEach(e => {
+      i++
+      if ( e.Persona.DatoBasico.cedula == id ){
+        pos = i
+      }
+    });
+    var v = familiar[pos];
+    var DBF = v.Persona.DatoBasico;
+    this.ArcPorcentaje = v.pprestaciones!=undefined?v.pprestaciones:0;
+    var nombre = DBF.apellidoprimero + ' ' + DBF.apellidosegundo + ' ' + DBF.nombreprimero + ' ' + DBF.nombresegundo;
+    return `<table style="width:800px" >
+      <tr>
+          <td align="center"><b>PARENTESCO</b><BR>${v.parentesco}</td>
+          <td colspan="2" align="center"><b>APELLIDOS Y NOMBRES</b><BR><label id="nombre">${nombre}</label></td>
+          <td align="center"><b>N° DE CÉDULA</b><BR><label id="cedula">${DBF.cedula}</cedula></td>
+          <td align="center"><b>PORCENTAJE PENSION</b><BR><label>${this.ArcPorcentaje} %</cedula></td>
+      </tr>
+     
+    </table>`;
+   
+  }
+
+  DibujarTablaArc(req){
+
+    var familia = "";
+    var i = 0;
+    var fila = '';
+    var tneto = 0;
+    let lstMontos = [];
+    $.each(req.Retroactivo, function (clave, valor) { 
+        i++;
+        var asignacion = 0;
+        var fcis = 0;
+        var bonr = 0;
+        var vaca = 0;
+        var bonos = 0;
+        var aguin = 0;
+        var detalle = "";
+        var mesA = "ENERO";
+        var mes = "ENERO";
+        var neto = 0;
+        
+        $.each(valor, function (cl, vl) {
+            
+            switch (cl) {
+                case 'sueldo_mensual':
+                    asignacion = vl.mt;        
+                    break;
+                case 'FCIS-00001':
+                    fcis =  vl.mt;
+                    break;
+                case 'retribucion_especial':
+                    bonr =  vl.mt;
+                    break;
+                case 'vacaciones':
+                    vaca =  vl.mt;
+                    break;
+                case 'aguinaldos':
+                    aguin =  vl.mt;
+                    break;
+                case 'detalle':
+                    detalle =  vl.mes;
+                    break;
+                default:
+                    if ( cl.substring(0, 4) == 'bono' ){
+                        bonos +=  vl.mt;
+                    }
+                    break;
+            }
+        
+        });
+        
+        var total = asignacion;
+        mes = detalle.toUpperCase();
+
+        var totalretribuciones = bonr + bonos;
+        if ( mesA == mes ){
+            neto += total + totalretribuciones + vaca;            
+        }else{
+            neto = total + totalretribuciones + vaca ;
+        }
+        
+        mesA = mes
+       
+       tneto +=  neto ;
+       lstMontos[mes] = {
+           "pos" : i,
+           "mes" : mes,
+           "total": neto,
+           "neto": neto
+       };
+
+       
+    });
+    
+    var objE : any = {}
+    tneto = 0;
+
+    objE = lstMontos['ENERO'] 
+        fila += this.lineaMes(objE, 1)
+        tneto +=  objE.neto;
+
+    objE = lstMontos['FEBRERO']         
+        fila += this.lineaMes(objE, 2)
+        tneto +=  objE.neto;
+
+    objE = lstMontos['MARZO'] 
+        fila += this.lineaMes(objE, 3)
+        tneto +=  objE.neto;
+
+    objE = lstMontos['ABRIL']   
+        fila += this.lineaMes(objE, 4)
+        tneto +=  objE.neto;
+
+    objE = lstMontos['MAYO'] 
+        fila += this.lineaMes(objE, 5)
+        tneto +=  objE.neto;
+
+    objE = lstMontos['JUNIO'] 
+        fila += this.lineaMes(objE, 6)
+        tneto +=  objE.neto;
+
+    objE = lstMontos['JULIO'] 
+        fila += this.lineaMes(objE, 7)
+        tneto +=  objE.neto;
+
+    objE = lstMontos['AGOSTO'] 
+        fila += this.lineaMes(objE, 8)
+        tneto +=  objE.neto;
+
+    objE = lstMontos['SEPTIEMBRE'] 
+        fila += this.lineaMes(objE, 9)
+        tneto +=  objE.neto;
+
+    objE = lstMontos['OCTUBRE'] 
+        fila += this.lineaMes(objE, 10)
+        tneto +=  objE.neto;
+
+    objE = lstMontos['NOVIEMBRE'] 
+        fila += this.lineaMes(objE, 11)
+        tneto +=  objE.neto;
+
+    objE = lstMontos['DICIEMBRE']
+        objE.total += this.ArcAguinaldo 
+        objE.neto += this.ArcAguinaldo 
+        tneto +=  objE.neto;
+
+    fila += this.lineaMes(objE,12)   
+
+    this.HTMLArc(fila, tneto, this.CabeceraFamiliar)
+
+  }
+  lineaMes(e, pos) {
+    //console.log(e);
+
+    var n = formatCurrency(e.neto, 'en-US',  'Bs ')
+    
+    var r1 = n.replace('.', '#');
+    var r2 = r1.replace(/,/g, '.');
+    var r3 = r2.replace('#', ',');
+
+    return `<tr>
+        <td >${pos}</td>
+        <td >${e.mes}</td>
+        <td align="right">${ r3 }</td>
+        <td align="right">${ r3 }</td>
+        </tr>`
+  }
+
+  HTMLArc(fila, neto, familiar){
+    var DBS = this.Militar.Persona.DatoBasico
+    var grado = this.Militar.Grado.descripcion //$("#cmbgrado option:selected").text();
+    var nombre = DBS.apellidoprimero + " " + DBS.nombreprimero   // $("#txtnombre").val() + " " + $("#txtapellido").val() ;
+    var cedula = DBS.cedula // $("#txtcedula").val();
+    var porpocentaje = "";
+    
+    var n = formatCurrency(neto, 'en-US',  'Bs ')
+    
+    var r1 = n.replace('.', '#');
+    var r2 = r1.replace(/,/g, '.');
+    var r3 = r2.replace('#', ',');
+
+    
+
+    if(this.ArcPorcentaje > 0){
+        var calculo = (neto * this.ArcPorcentaje)/100
+        var rn = formatCurrency(calculo, 'en-US',  'Bs ')
+    
+        var rr1 = rn.replace('.', '#');
+        var rr2 = rr1.replace(/,/g, '.');
+        var rr3 = rr2.replace('#', ',');
+        porpocentaje = `<br>PENSION DEL MILITAR : <b> &nbsp;&nbsp; ${ r3 }&nbsp;&nbsp;<br>
+        </b> DEVENGADO POR EL SOBREVIVIENTE :<b> &nbsp;&nbsp; ${ rr3 }`;
+    } else{
+        porpocentaje = `<br>TOTAL DEVENGADO :<b> &nbsp;&nbsp; ${ r3  }&nbsp;&nbsp;<br>`;
+    }
+
+    var ventana = window.open("", "_blank");
+    var localtime = new Date().toLocaleString();
+    ventana.document.write(`<center>
+    
+    <table style="width:800px" class="membrete">
+    <tr>
+        <td width="200px" valign="top"><center><img  style="width: 100px;height: 100px; margin-left: 0px" 
+        class="img-responsive file-path-wrapper-pre-view" 
+        src="https://app.ipsfa.gob.ve/assets/images/logo_ipsfa.png" id="_imgescudo"/></center>
+        </td>
+        <td width="400px">
+            <center>
+            REPÚBLICA BOLIVARIANA DE VENEZUELA <BR>
+            MINISTERIO DEL PODER POPULAR PARA LA DEFENSA<BR>
+            VICEMINISTERIO DE SERVICIOS, PERSONAL Y LOGÍSTICA<BR>
+            DIRECCIÓN GENERAL DE EMPRESAS Y SERVICIOS<BR>
+            INSTITUTO DE PREVISIÓN SOCIAL DE LA <BR>FUERZA ARMADA NACIONAL BOLIVARIANA<BR>
+            RIF: G20003692-3
+            </center>
+        </td>
+        <td width="200px" valign="top"></td>
+        </tr>
+    </table >
+        <h3>CONSTANCIA AR-C DE PENSIÓN<br>
+            AÑO <b>2019</b>
+        </h3>
+        <br>
+    <table style="width:800px" >
+        <tr>
+            <td align="center"><b>GRADO</b><BR>${grado}</td>
+            <td colspan="2" align="center"><b>APELLIDOS Y NOMBRES</b><BR><label id="nombre">${nombre}</label></td>
+            <td align="center"><b>N° DE CÉDULA</b><BR><label id="cedula">${cedula}</cedula></td>
+        </tr>
+       
+    </table>
+    ${familiar}
+    <BR><BR>
+    <div class="cuerpo">
+    <table style="width:800px">
+        <thead>
+            <tr>
+                <th style="width: 20px">#</th>
+                <th align="left"> DESCRIPCION DEL MES</th>
+                <th style="width: 150px" align="right">ASIGNACIONES</th>
+                <th style="width: 150px" align="right">TOTAL</th>
+            </tr>
+        </thead>
+        <tbody >
+        ${fila}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th align="center" colspan="4" 
+                    style="font-size:16px">
+                    ${porpocentaje}
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+    <br>
+    <table border="0">
+        <tr>
+            <td width="15%" valign="top">
+                <img src="https://app.ipsfa.gob.ve/assets/images/selloafiliacion.png" valing="left" width="240px" style="margin-left: -50px;margin-right: -100px">
+            </td>
+            <td width="70%" valign="top">
+                <center><h3>
+                <img style="width: 250px;height: 120px;" src="https://app.ipsfa.gob.ve/assets/images/firmatesorero.png" /><br>
+                <label id="lblnombrePI"> TERRY MITCHELL </label><BR>
+                <label id="lblgradoPIF"> MAYOR </label><br>
+                TESORERO I.P.S.F.A.
+                </h3><i>               
+            </td>
+            <td width="15%" valign="top"></td>
+          </tr>
+    </table>
+    <br><br>
+    </div>
+   </div>
+   <div class="footer">
+            <hr>
+        Av. Los Proceres, Edf. Sede del IPSFA, P.B., Gerencia de Bienestar y Seguridad Social. Santa Monica, Municipio
+        Libertador del Distrito Capital, Caracas. Correo Electrónico: bienestaripsfaccs@gmail.com. telefonos +58 414-3270828, +58 412-6392184
+    </div>
+    </center>
+    
+    
+    
+    `);
+
+    ventana.document.head.innerHTML = ` <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SSSIFANB</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css">
+    <style type="text/css">
+            body {
+                margin: 0px;
+                font-family: Calibri;
+                
+            }
+            .baner {
+                text-align: center;
+                line-height: 22px; 
+                font-size: 15px; 
+            }
+            p {
+                text-align: justify;
+                line-height: 22px; 
+                font-size: 14px;
+            }
+            .wrapper {
+                min-height: 100%;
+                height: auto !important;
+                height: 100%;
+                margin: 0 auto -5em;
+            }
+            .footer, .push {
+                height: 5em;
+                font-size: 12px;
+            }
+        table{
+            border-collapse: collapse;
+            font-family: Arial, Calibre;
+            font-size: 12px;
+        }
+        .tablaneto {
+            border-collapse: collapse;
+        } 
+        .tablaneto tr{
+            border: 1px solid #CCCCCC;
+        } 
+        .tablaneto td {
+            border: 1px solid #CCCCCC;
+        } 
+        .tablaneto th {
+            border: 1px solid #CCCCCC;
+        } 
+        @media print {
+            
+            .footer, .push {
+                height: 5em;
+                font-size: 12px;
+            }
+        }
+    </style>
+     `;
+  }
 
 }
 
