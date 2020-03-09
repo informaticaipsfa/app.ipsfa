@@ -34,6 +34,9 @@ export class StatusCardComponent implements OnDestroy  {
   loadingmed = false;
   loadingnet = false;
   loadingrepor = false;
+  loadingarc = false;
+  
+
   isHmed = true;
   isHidden: boolean = true;
   isHc: boolean = true;
@@ -873,7 +876,7 @@ export class StatusCardComponent implements OnDestroy  {
           hijos : "0",
           porcentaje : "" + data.Pension.pprestaciones + "",
         };
-        this.ArcPorcentaje =  data.Pension.pprestaciones
+        this.ArcPorcentaje =  0
 
         this.constanciaService.getConstaciARC(Calc).subscribe(
           (req) => {
@@ -882,18 +885,10 @@ export class StatusCardComponent implements OnDestroy  {
             if ( sobreviviente == true ){
               this.CabeceraFamiliar = this.cabeceraFamiliar(data.Familiar, cedula) 
             }
-            //var wArc = req;
+           
             var max = req.Retroactivo.length; 
             var retroactivo = req.Retroactivo[ max - 1 ]
             this.ArcAguinaldo = retroactivo.AGUI0004.mt            
-            
-            console.log(this.ArcAguinaldo)
-            // $.each(req.Retroactivo, function (clave, valor){
-            //   console.log(valor)
-
-
-            // })
-            
 
             this.DibujarTablaArc(req)
             
@@ -926,14 +921,14 @@ export class StatusCardComponent implements OnDestroy  {
     });
     var v = familiar[pos];
     var DBF = v.Persona.DatoBasico;
-    var ArcPorcentaje = v.pprestaciones!=undefined?v.pprestaciones:0;
+    this.ArcPorcentaje = v.pprestaciones!=undefined?v.pprestaciones:0;
     var nombre = DBF.apellidoprimero + ' ' + DBF.apellidosegundo + ' ' + DBF.nombreprimero + ' ' + DBF.nombresegundo;
     return `<table style="width:800px" >
       <tr>
           <td align="center"><b>PARENTESCO</b><BR>${v.parentesco}</td>
           <td colspan="2" align="center"><b>APELLIDOS Y NOMBRES</b><BR><label id="nombre">${nombre}</label></td>
           <td align="center"><b>N° DE CÉDULA</b><BR><label id="cedula">${DBF.cedula}</cedula></td>
-          <td align="center"><b>PORCENTAJE PENSION</b><BR><label>${ArcPorcentaje} %</cedula></td>
+          <td align="center"><b>PORCENTAJE PENSION</b><BR><label>${this.ArcPorcentaje} %</cedula></td>
       </tr>
      
     </table>`;
@@ -1093,13 +1088,26 @@ export class StatusCardComponent implements OnDestroy  {
     var nombre = DBS.apellidoprimero + " " + DBS.nombreprimero   // $("#txtnombre").val() + " " + $("#txtapellido").val() ;
     var cedula = DBS.cedula // $("#txtcedula").val();
     var porpocentaje = "";
+    
+    var n = formatCurrency(neto, 'en-US',  'Bs ')
+    
+    var r1 = n.replace('.', '#');
+    var r2 = r1.replace(/,/g, '.');
+    var r3 = r2.replace('#', ',');
 
+    
 
     if(this.ArcPorcentaje > 0){
-        porpocentaje = `<br>PENSION DEL MILITAR : <b> &nbsp;&nbsp; ${ neto}&nbsp;&nbsp;<br>
-        </b> DEVENGADO POR EL SOBREVIVIENTE :<b> &nbsp;&nbsp; ${ (neto * this.ArcPorcentaje)/100 }`;
+        var calculo = (neto * this.ArcPorcentaje)/100
+        var rn = formatCurrency(calculo, 'en-US',  'Bs ')
+    
+        var rr1 = rn.replace('.', '#');
+        var rr2 = rr1.replace(/,/g, '.');
+        var rr3 = rr2.replace('#', ',');
+        porpocentaje = `<br>PENSION DEL MILITAR : <b> &nbsp;&nbsp; ${ r3 }&nbsp;&nbsp;<br>
+        </b> DEVENGADO POR EL SOBREVIVIENTE :<b> &nbsp;&nbsp; ${ rr3 }`;
     } else{
-        porpocentaje = `<br>TOTAL DEVENGADO :<b> &nbsp;&nbsp; ${ neto  }&nbsp;&nbsp;<br>`;
+        porpocentaje = `<br>TOTAL DEVENGADO :<b> &nbsp;&nbsp; ${ r3  }&nbsp;&nbsp;<br>`;
     }
 
     var ventana = window.open("", "_blank");
@@ -1169,9 +1177,7 @@ export class StatusCardComponent implements OnDestroy  {
             </td>
             <td width="70%" valign="top">
                 <center><h3>
-                <img style="width: 250px;height: 120px;"  
-                src="https://app.ipsfa.gob.ve/assets/images/firmatesorero.png" 
-                onerror="this.src='images/ndisponible.jpg'" id="lblimgFirmaPIT"/><br>
+                <img style="width: 250px;height: 120px;" src="https://app.ipsfa.gob.ve/assets/images/firmatesorero.png" /><br>
                 <label id="lblnombrePI"> TERRY MITCHELL </label><BR>
                 <label id="lblgradoPIF"> MAYOR </label><br>
                 TESORERO I.P.S.F.A.
