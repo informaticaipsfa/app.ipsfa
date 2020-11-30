@@ -11,5 +11,5 @@
 
 export const environment = {
   production: false,
-  Url: 'https://app.ipsfa.gob.ve:2608/ipsfa/api/web/',
+  Url: 'https://192.168.0.109:2608/ipsfa/api/web/',
 };

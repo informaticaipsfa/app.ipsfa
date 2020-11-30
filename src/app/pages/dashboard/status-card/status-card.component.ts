@@ -66,6 +66,8 @@ export class StatusCardComponent implements OnDestroy  {
   ArcAguinaldo = 0
   CabeceraFamiliar = ''
   Militar: any = {}
+  ArcFamiliar = "";
+  Meses = ['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE'];
 
   constructor(
       private themeService: NbThemeService, 
@@ -512,8 +514,8 @@ export class StatusCardComponent implements OnDestroy  {
         }
         fila += `<tr>
                     <td align="right" colspan='2'>TOTAL&nbsp;&nbsp;</td>
-                    <td align="right" style="width:200px">${ asignacion }&nbsp;&nbsp;</td>
-                    <td align="right" style="width:200px">${ deduccion }&nbsp;&nbsp;</td>
+                    <td align="right" style="width:200px">${ this.utlidad.FormatoMoneda( asignacion ) }&nbsp;&nbsp;</td>
+                    <td align="right" style="width:200px">${ this.utlidad.FormatoMoneda( deduccion )}&nbsp;&nbsp;</td>
                 </tr>`;
         var neto = asignacion - deduccion;
         //console.log(fila);
@@ -681,7 +683,7 @@ export class StatusCardComponent implements OnDestroy  {
                 asignacion += monto;
                 //console.error(sueldomensuals);
 
-            }else if(tipo == 2) { //Asignacion Retroactivos                  
+            }else if(tipo == 2 || tipo == 33) { //Asignacion Retroactivos                  
                 fila += `
                     <tr>
                         <td align="left">&nbsp;&nbsp;${this.obtenerDescripcionConceptos(des)}</td>
@@ -710,7 +712,7 @@ export class StatusCardComponent implements OnDestroy  {
         fila += `<tr>
                     <td align="right" colspan='2'>TOTAL&nbsp;&nbsp;</td>
                     <td align="right" style="width:200px">${asignacion}&nbsp;&nbsp;</td>
-                    <td align="right" style="width:200px">${deduccion}&nbsp;&nbsp;</td>
+                    <td align="right" style="width:200px">${   deduccion}&nbsp;&nbsp;</td>
                 </tr>`;
         var neto = asignacion - deduccion;
         var strneto = neto;
@@ -862,8 +864,8 @@ export class StatusCardComponent implements OnDestroy  {
         var ti = parseInt(  data.tiemposervicio.split("A")[0] );
         var antiguedad = this.utlidad.AntiguedadGrado(data.fascenso, data.fretiro); 
         var Calc = {
-          inicio : "2019-01-01",
-          fin : "2019-12-31",
+          inicio : "2020-01-01",
+          fin : "2020-12-31",
           fingreso : this.utlidad.ConvertirFechaCalculos(data.fingreso),
           fascenso : this.utlidad.ConvertirFechaCalculos(data.fascenso),    
           fretiro : this.utlidad.ConvertirFechaCalculos(data.fretiro),
@@ -876,9 +878,14 @@ export class StatusCardComponent implements OnDestroy  {
           hijos : "0",
           porcentaje : "" + data.Pension.pprestaciones + "",
         };
+        var CalcARC = {
+          cedula : cedula,
+          cedulafamiliar : "",
+          anio: "2020"
+        }
         this.ArcPorcentaje =  0
 
-        this.constanciaService.getConstaciARC(Calc).subscribe(
+        this.constanciaService.getConstaciaARC(CalcARC).subscribe(
           (req) => {
             console.log(req);
             
@@ -890,7 +897,35 @@ export class StatusCardComponent implements OnDestroy  {
             var retroactivo = req.Retroactivo[ max - 1 ]
             this.ArcAguinaldo = retroactivo.AGUI0004.mt            
 
-            this.DibujarTablaArc(req)
+            var lista = req.rs;
+            var fila = '';
+            var tneto = 0.00;
+            var obj : any
+            for(var i = 0; i <= 11; i++){
+                var mesAux = i+1;
+
+                if( lista[i] != undefined ) {
+                    var mes = parseInt(lista[i].mes);
+                    
+                    tneto += parseFloat( lista[i].mont );
+                    obj[this.Meses[mes - 1]] = {
+                        "mes": mes,
+                        "des": this.Meses[mes - 1],
+                        "mon": lista[i].mont
+                    }           
+                }
+                    
+                
+
+            }
+            
+            for(var i= 0; i <= 11; i++){
+                fila += this.seleccionarMesArc(this.Meses[i], i+1, obj);
+            }
+            
+
+            
+            this.HTMLArc(fila, tneto, this.ArcFamiliar);
             
 
           }, //Fin del caso 
@@ -935,140 +970,27 @@ export class StatusCardComponent implements OnDestroy  {
    
   }
 
-  DibujarTablaArc(req){
+  seleccionarMesArc(mes, pos, obj){
 
-    var familia = "";
-    var i = 0;
-    var fila = '';
-    var tneto = 0;
-    let lstMontos = [];
-    $.each(req.Retroactivo, function (clave, valor) { 
-        i++;
-        var asignacion = 0;
-        var fcis = 0;
-        var bonr = 0;
-        var vaca = 0;
-        var bonos = 0;
-        var aguin = 0;
-        var detalle = "";
-        var mesA = "ENERO";
-        var mes = "ENERO";
-        var neto = 0;
-        
-        $.each(valor, function (cl, vl) {
-            
-            switch (cl) {
-                case 'sueldo_mensual':
-                    asignacion = vl.mt;        
-                    break;
-                case 'FCIS-00001':
-                    fcis =  vl.mt;
-                    break;
-                case 'retribucion_especial':
-                    bonr =  vl.mt;
-                    break;
-                case 'vacaciones':
-                    vaca =  vl.mt;
-                    break;
-                case 'aguinaldos':
-                    aguin =  vl.mt;
-                    break;
-                case 'detalle':
-                    detalle =  vl.mes;
-                    break;
-                default:
-                    if ( cl.substring(0, 4) == 'bono' ){
-                        bonos +=  vl.mt;
-                    }
-                    break;
-            }
-        
-        });
-        
-        var total = asignacion;
-        mes = detalle.toUpperCase();
-
-        var totalretribuciones = bonr + bonos;
-        if ( mesA == mes ){
-            neto += total + totalretribuciones + vaca;            
-        }else{
-            neto = total + totalretribuciones + vaca ;
-        }
-        
-        mesA = mes
+    var sel : any
+    if( obj[mes] == undefined){
        
-       tneto +=  neto ;
-       lstMontos[mes] = {
-           "pos" : i,
-           "mes" : mes,
-           "total": neto,
-           "neto": neto
-       };
+       obj[mes] = {
+            "mes": pos,
+            "des": mes,
+            "mon": 0
+        }     
+        sel =  obj[mes];
+    }else{
+        sel = obj[mes];
+    }
 
-       
-    });
-    
-    var objE : any = {}
-    tneto = 0;
+    return this.lineaMes(sel.des, sel.mes, sel.mon);
+}
+  
+  lineaMes(mes, pos, monto) {
 
-    objE = lstMontos['ENERO'] 
-        fila += this.lineaMes(objE, 1)
-        tneto +=  objE.neto;
-
-    objE = lstMontos['FEBRERO']         
-        fila += this.lineaMes(objE, 2)
-        tneto +=  objE.neto;
-
-    objE = lstMontos['MARZO'] 
-        fila += this.lineaMes(objE, 3)
-        tneto +=  objE.neto;
-
-    objE = lstMontos['ABRIL']   
-        fila += this.lineaMes(objE, 4)
-        tneto +=  objE.neto;
-
-    objE = lstMontos['MAYO'] 
-        fila += this.lineaMes(objE, 5)
-        tneto +=  objE.neto;
-
-    objE = lstMontos['JUNIO'] 
-        fila += this.lineaMes(objE, 6)
-        tneto +=  objE.neto;
-
-    objE = lstMontos['JULIO'] 
-        fila += this.lineaMes(objE, 7)
-        tneto +=  objE.neto;
-
-    objE = lstMontos['AGOSTO'] 
-        fila += this.lineaMes(objE, 8)
-        tneto +=  objE.neto;
-
-    objE = lstMontos['SEPTIEMBRE'] 
-        fila += this.lineaMes(objE, 9)
-        tneto +=  objE.neto;
-
-    objE = lstMontos['OCTUBRE'] 
-        fila += this.lineaMes(objE, 10)
-        tneto +=  objE.neto;
-
-    objE = lstMontos['NOVIEMBRE'] 
-        fila += this.lineaMes(objE, 11)
-        tneto +=  objE.neto;
-
-    objE = lstMontos['DICIEMBRE']
-        objE.total += this.ArcAguinaldo 
-        objE.neto += this.ArcAguinaldo 
-        tneto +=  objE.neto;
-
-    fila += this.lineaMes(objE,12)   
-
-    this.HTMLArc(fila, tneto, this.CabeceraFamiliar)
-
-  }
-  lineaMes(e, pos) {
-    //console.log(e);
-
-    var n = formatCurrency(e.neto, 'en-US',  'Bs ')
+    var n = formatCurrency(monto, 'en-US',  'Bs ')
     
     var r1 = n.replace('.', '#');
     var r2 = r1.replace(/,/g, '.');
@@ -1076,7 +998,7 @@ export class StatusCardComponent implements OnDestroy  {
 
     return `<tr>
         <td >${pos}</td>
-        <td >${e.mes}</td>
+        <td >${mes}</td>
         <td align="right">${ r3 }</td>
         <td align="right">${ r3 }</td>
         </tr>`

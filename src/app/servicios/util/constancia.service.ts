@@ -46,7 +46,8 @@ export class ConstanciaService {
   }
 
   //Constancia AR-C
-  getConstaciARC(obj): any{    
-    return this.http.post<any>(this.urlGet + 'pensionado/calcularretroactivo', obj);
+  getConstaciaARC(obj): any{    
+    console.log(obj);
+    return this.http.post<any>(this.urlGet + 'pensionado/imprimirarc', obj);
   }
 }

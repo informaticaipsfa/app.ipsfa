@@ -264,5 +264,15 @@ export class UtilidadesService {
 
     return ''
   }
+  FormatoNumero( valor ) : string{
+    var n = valor;
+    var s = '' //numeral(n).format('0.0,');
+    var r1 = s.replace('.', '#');
+    console.log(s);
+    var r2 = r1.replace(/,/g, '.');
+    var r3 = r2.replace('#', ',');
+
+    return ''
+  }
 
 }
