@@ -167,11 +167,12 @@ export class StatusCardComponent implements OnDestroy  {
         var DB = data.Persona.DatoBasico;
         
         this.putId("lblgradoPI", gradoPI);
-        this.putId("lblgradoMil", data.Grado.abreviatura);
+        this.putId("lblgradoMil", data.Grado.descripcion);
         this.putId("lblnombreMil", DB.apellidoprimero + " " + DB.nombreprimero);
         this.putId("lblcedulaMil", data.id);
         this.putId("lbledoCivilM", this.utlidad.GenerarEstadoCivil(DB.estadocivil, DB.sexo));
         this.putId("lblfchNacMil", this.utlidad.ConvertirFechaHumana(DB.fechanacimiento));
+        //this.putId("lbldireccionMil", DB.data.Persona.DatoBasico.direccion);
         this.putId("lblfchUltAscenso", this.utlidad.ConvertirFechaHumana(data.fascenso));
         this.putId("lblfchIngresoFANB", this.utlidad.ConvertirFechaHumana(data.fingreso));
         this.putId("lblsituacionMil", this.utlidad.GenerarSituacionMilitar(data.situacion));
@@ -779,7 +780,7 @@ export class StatusCardComponent implements OnDestroy  {
     
     var DB = data.Persona.DatoBasico;
     this.putId("cedulacp", data.id);
-    this.putId("nombrecp", data.Grado.abreviatura + ". " + DB.apellidoprimero + " " + DB.nombreprimero);
+    this.putId("nombrecp", data.Grado.descripcion + ". " + DB.apellidoprimero + " " + DB.nombreprimero);
     
     this.constanciaService.getPension(usr.WUsuario.cedula)
       .subscribe(
@@ -787,8 +788,9 @@ export class StatusCardComponent implements OnDestroy  {
           this.loadingpen = false;
           this.isHpen = false;
           this.isHpens = false;         
-          var n = parseFloat(data.sueldo_mensual.mt);
-          this.putId("montocp", n);
+          var n = parseFloat(data.sueldo_mensual.mt); 
+
+       this.putId("montocp", n);
           var fechaActual = this.utlidad.ConvertirFechaActual();
           this.putId("lblfchActuals",fechaActual);          
         },
